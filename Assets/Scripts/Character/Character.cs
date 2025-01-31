@@ -21,4 +21,6 @@ public abstract partial class Character : MonoBehaviour
     protected abstract void Idle();
     protected abstract void Move();
     protected abstract void Attack();
+    protected abstract void OnCollisionEnter(Collision collision);
+    protected abstract void OnCollisionExit(Collision collision);
 }
