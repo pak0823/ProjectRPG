@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -20,24 +21,30 @@ public partial class Player : Character
 
     protected override IEnumerator UpdateState()
     {
-        while (true)
-        {
-            InputManager();
+        //while (true)
+        //{
+        //    InputManager();
 
-            switch (currentState)
-            {
-                case EPlayerState.IDLE:
-                    Idle();
-                    break;
-                case EPlayerState.MOVE:
-                    //Move();
-                    break;
-                case EPlayerState.ATTACK:
-                    Attack();
-                    break;
-            }
-            yield return null;
-        }
+        //    switch (currentState)
+        //    {
+        //        case EPlayerState.IDLE:
+        //            Idle();
+        //            break;
+        //        case EPlayerState.ATTACK:
+        //            Attack();
+        //            break;
+        //    }
+        //    yield return null;
+        //}
+
+        yield return null;
+    }
+
+    private void Update()
+    {
+        InputManager();
+        if (currentState == EPlayerState.IDLE)
+            Idle();
     }
 
     void FixedUpdate()
@@ -60,17 +67,14 @@ public partial class Player : Character
         {
             ChangeState(EPlayerState.MOVE);
         }
-        else if (Input.GetMouseButtonDown(0)) // 마우스 왼쪽 클릭 시 공격
+        if (Input.GetMouseButtonDown(0)) // 마우스 왼쪽 클릭 시 공격
         {
             ChangeState(EPlayerState.ATTACK);
+            Attack();
         }
-        else if(Input.GetKey(KeyCode.Space))
+        if(Input.GetKey(KeyCode.Space))
         {
             Jump();
-        }
-        else //아무 입력이 없을 시 idle상태로 변경
-        {
-            ChangeState(EPlayerState.IDLE);
         }
     }
 
@@ -79,6 +83,7 @@ public partial class Player : Character
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
+            Debug.Log("ground");
         }
     }
 
@@ -87,6 +92,7 @@ public partial class Player : Character
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = false;
+            Debug.Log("No ground");
         }
     }
 }

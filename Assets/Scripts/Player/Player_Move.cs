@@ -5,12 +5,12 @@ using UnityEngine.EventSystems;
 
 public partial class Player
 {
-    public float rotationSpeed = 270f; //회전 속도
+    public float rotationSpeed = 1080f; //회전 속도
 
     protected override void Idle()
     {
+        SetAnimationState("animationState", 0);
         SetAnimationMove("moveSpeed", 0);
-        RotateWithMouse();
     }
 
     protected override void Move()
@@ -18,17 +18,51 @@ public partial class Player
         // 이동 방향 초기화
         moveDirection = Vector3.zero;
 
+        //회전 처리
+        //RotateWithMouse();
+
         // W, A, S, D 키 입력 처리
-        if (Input.GetKey(KeyCode.W)) moveDirection += Vector3.forward; // 앞으로 이동
-        if (Input.GetKey(KeyCode.S)) moveDirection += Vector3.back;    // 뒤로 이동
-        if (Input.GetKey(KeyCode.A)) moveDirection += Vector3.left;    // 왼쪽 이동
-        if (Input.GetKey(KeyCode.D)) moveDirection += Vector3.right;   // 오른쪽 이동
+        if (Input.GetKey(KeyCode.W))
+        {
+            // 정면으로 바라보게 회전
+            Quaternion toRotationForward = Quaternion.Euler(0, 0, 0); // 정면으로 회전
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotationForward, rotationSpeed * Time.deltaTime);
+            moveDirection += Vector3.forward; // 앞으로 이동
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            // 뒤로 바라보게 회전
+            Quaternion toRotationBackward = Quaternion.Euler(0, 180, 0); // 뒤로 회전
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotationBackward, rotationSpeed * Time.deltaTime);
+            moveDirection += Vector3.back; // 뒤로 이동
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            // 왼쪽으로 회전
+            Quaternion toRotationLeft = Quaternion.Euler(0, -90, 0); // 왼쪽으로 90도 회전
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotationLeft, rotationSpeed * Time.deltaTime);
+            moveDirection += Vector3.left; // 왼쪽으로 이동
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            // 오른쪽으로 회전
+            Quaternion toRotationRight = Quaternion.Euler(0, 90, 0); // 오른쪽으로 90도 회전
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotationRight, rotationSpeed * Time.deltaTime);
+            moveDirection += Vector3.right; // 오른쪽으로 이동
+        }
 
         // 입력 방향을 캐릭터의 로컬 방향으로 변환
-        moveDirection = transform.TransformDirection(moveDirection);
+        //moveDirection = transform.TransformDirection(moveDirection);
 
-        //회전 처리
-        RotateWithMouse();
+        //// 이동 방향 정규화
+        //moveDirection = moveDirection.normalized;
+
+        //// 이동 방향을 기반으로 캐릭터 회전
+        //if (moveDirection != Vector3.zero)
+        //{
+        //    Quaternion toRotation = Quaternion.LookRotation(moveDirection);
+        //    transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, 360 * Time.deltaTime);
+        //}
 
         //shift키를 안누르면 최대 0.5, shift키를 누르면 초대 1까지 값이 바뀌게 된다
         float offset = 0.5f + Input.GetAxis("Sprint") * 0.5f;
@@ -45,28 +79,22 @@ public partial class Player
 
         // Rigidbody.velocity를 사용하여 이동
         RIGIDBODY.velocity = new Vector3(moveDirection.x * moveSpeed, RIGIDBODY.velocity.y, moveDirection.z * moveSpeed);
-    }
 
-    private void RotateWithMouse()  //마우스 회전에 따른 플레이어 시점 방향
-    {
-        // 마우스 이동 입력 감지
-        float mouseX = Input.GetAxis("Mouse X");
-
-        // 회전 각도 계산
-        Vector3 rotation = new Vector3(0, mouseX, 0) * rotationSpeed * Time.deltaTime;
-
-        // 현재 회전 상태에 회전 추가
-        Quaternion deltaRotation = Quaternion.Euler(rotation);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, transform.rotation * deltaRotation, rotationSpeed * Time.deltaTime);
+        if (moveDirection == Vector3.zero)
+        {
+            ChangeState(EPlayerState.IDLE);
+        }
     }
 
     private void Jump()
     {
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
+            //ChangeState(EPlayerState.JUMP);
             SetAnimationState("animationState", (int)EPlayerState.JUMP);
             RIGIDBODY.velocity = new Vector3(RIGIDBODY.velocity.x, jumpPower, RIGIDBODY.velocity.z);
             isGrounded = false;
+            Debug.Log("jump");
         }
     }
 }

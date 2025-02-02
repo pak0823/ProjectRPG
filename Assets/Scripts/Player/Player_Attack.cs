@@ -8,6 +8,6 @@ public partial class Player
     {
         SetAnimationState("animationState", (int)EPlayerState.ATTACK);
         Debug.Log("attack!");
-
+        ChangeState(EPlayerState.IDLE);
     }
 }
