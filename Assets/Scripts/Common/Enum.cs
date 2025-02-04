@@ -5,6 +5,7 @@ public enum EPlayerState
     JUMP,
     SLIDING,
     ATTACK,
+    DEFEND,
     HIT
 }
 

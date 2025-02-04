@@ -7,7 +7,12 @@ public partial class Player
     protected override void Attack()
     {
         SetAnimationState("animationState", (int)EPlayerState.ATTACK);
-        Debug.Log("attack!");
-        ChangeState(EPlayerState.IDLE);
+
+    }
+
+    public void Defend()
+    {
+        currentState = EPlayerState.DEFEND;
+        SetAnimationState("animationState", (int)EPlayerState.DEFEND);
     }
 }

@@ -67,6 +67,7 @@
     <Compile Include="Assets\Scripts\Player\Player_Stat.cs" />
     <Compile Include="Assets\Scripts\Battle\TopDownCamera.cs" />
     <Compile Include="Assets\Scripts\Common\AutoBulid.cs" />
+    <Compile Include="Assets\Scripts\Battle\Weapon.cs" />
     <Compile Include="Assets\Scripts\Common\Enum.cs" />
     <Compile Include="Assets\Scripts\Monster\Monster.cs" />
   </ItemGroup>
