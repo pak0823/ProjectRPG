@@ -54,7 +54,7 @@ public partial class Player : Character
         }
     }
 
-    public void ChangeState(EPlayerState _currentstate)
+    private void ChangeState(EPlayerState _currentstate)
     {
         currentState = _currentstate;
     }

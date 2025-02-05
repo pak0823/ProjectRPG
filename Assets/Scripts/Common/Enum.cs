@@ -6,7 +6,8 @@ public enum EPlayerState
     SLIDING,
     ATTACK,
     DEFEND,
-    HIT
+    HIT,
+    DIE
 }
 
 public enum EEnemyState
@@ -14,5 +15,6 @@ public enum EEnemyState
     IDLE,
     MOVE,
     ATTACK,
-    HIT
+    HIT,
+    DIE
 }
