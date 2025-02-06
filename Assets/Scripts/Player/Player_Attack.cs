@@ -4,7 +4,7 @@ using UnityEngine;
 
 public partial class Player
 {
-    protected override void Attack()
+    public override void Attack()
     {
         SetAnimationState("animationState", (int)EPlayerState.ATTACK);
 

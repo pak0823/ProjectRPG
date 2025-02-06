@@ -17,10 +17,10 @@ public abstract partial class Character : MonoBehaviour
 
     protected virtual void Start() { }
 
-    protected abstract IEnumerator UpdateState();
-    protected abstract void Idle();
-    protected abstract void Move();
-    protected abstract void Attack();
-    protected abstract void OnCollisionEnter(Collision collision);
-    protected abstract void OnCollisionExit(Collision collision);
+    //protected abstract IEnumerator UpdateState();
+    public abstract void Idle();
+    public abstract void Move();
+    public abstract void Attack();
+    public abstract void OnCollisionEnter(Collision collision);
+    public abstract void OnCollisionExit(Collision collision);
 }

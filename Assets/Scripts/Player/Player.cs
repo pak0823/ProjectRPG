@@ -17,26 +17,26 @@ public partial class Player : Character
         //StartCoroutine(UpdateState());
     }
 
-    protected override IEnumerator UpdateState()
-    {
-        //while (true)
-        //{
-        //    InputManager();
+    //protected override IEnumerator UpdateState()
+    //{
+    //    //while (true)
+    //    //{
+    //    //    InputManager();
 
-        //    switch (currentState)
-        //    {
-        //        case EPlayerState.IDLE:
-        //            Idle();
-        //            break;
-        //        case EPlayerState.ATTACK:
-        //            Attack();
-        //            break;
-        //    }
-        //    yield return null;
-        //}
+    //    //    switch (currentState)
+    //    //    {
+    //    //        case EPlayerState.IDLE:
+    //    //            Idle();
+    //    //            break;
+    //    //        case EPlayerState.ATTACK:
+    //    //            Attack();
+    //    //            break;
+    //    //    }
+    //    //    yield return null;
+    //    //}
 
-        yield return null;
-    }
+    //    yield return null;
+    //}
 
     private void Update()
     {
@@ -92,7 +92,7 @@ public partial class Player : Character
         }
     }
 
-    protected override void OnCollisionEnter(Collision collision)
+    public override void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
@@ -101,7 +101,7 @@ public partial class Player : Character
         }
     }
 
-    protected override void OnCollisionExit(Collision collision)
+    public override void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {

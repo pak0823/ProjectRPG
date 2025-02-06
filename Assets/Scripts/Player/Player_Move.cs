@@ -6,13 +6,13 @@ public partial class Player
 {
     public float rotationSpeed = 1080f; //회전 속도
 
-    protected override void Idle()
+    public override void Idle()
     {
         SetAnimationState("animationState", 0);
         SetAnimationMove("moveSpeed", 0);
     }
 
-    protected override void Move()
+    public override void Move()
     {
         SetAnimationState("animationState", 0);
 

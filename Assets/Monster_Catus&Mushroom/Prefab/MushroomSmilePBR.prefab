@@ -141,9 +141,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1221083948262841476}
   - component: {fileID: 1691260113314563210}
-  - component: {fileID: 1262981580778135857}
   - component: {fileID: 1577716075216907744}
   - component: {fileID: 2045550924386255076}
+  - component: {fileID: 2842014632187403614}
+  - component: {fileID: 1356142669533613787}
   m_Layer: 0
   m_Name: MushroomSmilePBR
   m_TagString: Untagged
@@ -189,31 +190,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1262981580778135857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1997902569578628670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f351f22654c59c4ba364090acfc683e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SPRITERENDERER: {fileID: 0}
-  RIGIDBODY: {fileID: 0}
-  CAPSULECOLLIDER: {fileID: 0}
-  ANIMATOR: {fileID: 0}
-  target: {fileID: 0}
-  detectionRange: 5
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  moveSpeed: 3
-  wanderRange: 5
-  minIdleTime: 4
-  maxIdleTime: 15
 --- !u!54 &1577716075216907744
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -264,6 +240,40 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &2842014632187403614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997902569578628670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24b170b24b062d04ca5e153363b2371a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1356142669533613787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997902569578628670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f351f22654c59c4ba364090acfc683e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SPRITERENDERER: {fileID: 0}
+  RIGIDBODY: {fileID: 0}
+  CAPSULECOLLIDER: {fileID: 0}
+  ANIMATOR: {fileID: 0}
+  health: 100
+  moveSpeed: 2
+  detectionRange: 7
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &2411188951558394283
 GameObject:
   m_ObjectHideFlags: 0
