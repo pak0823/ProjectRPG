@@ -31,17 +31,17 @@ public class AiMonster : MonoBehaviour
                     SearchTarget();
                     break;
                 case EEnemyState.ATTACK:
-                    monster.Attack();
+                    Attack();
                     break;
                 case EEnemyState.DIE:
-                    monster.Die();
+                    Die();
                     break;
             }
             yield return null;
         }
     }
 
-    protected void ChangeState(EEnemyState newState)
+    public void ChangeState(EEnemyState newState)
     {
         currentState = newState;
     }
@@ -51,11 +51,38 @@ public class AiMonster : MonoBehaviour
         if (monster.GetTarget() != null)
         {
             monster.Move();
+
+            if (monster.distanceToTarget <= monster.attackRange)
+            {
+                ChangeState(EEnemyState.ATTACK);
+            }
         }
         else
         {
             ChangeState(EEnemyState.IDLE);
         }
+    }
+
+    protected void Attack()
+    {
+        if (monster.GetTarget() != null)
+        {
+            monster.Attack();
+        }
+        else
+        {
+            ChangeState(EEnemyState.IDLE);
+        }
+    }
+
+    protected void TakeDamage()
+    {
+        //monster.TakeDamage();
+    }
+
+    protected void Die()
+    {
+        monster.Die();
     }
 
     protected void SearchTarget()
@@ -65,7 +92,9 @@ public class AiMonster : MonoBehaviour
         {
             Transform target = hitColliders[0].transform; // 첫 번째 타겟을 설정
             monster.SetTarget(target);
-            ChangeState(EEnemyState.MOVE);
+
+            if(currentState == EEnemyState.IDLE)
+                ChangeState(EEnemyState.MOVE);
         }
         else
         {

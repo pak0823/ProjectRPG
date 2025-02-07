@@ -8,7 +8,7 @@ public partial class Player
 
     public override void Idle()
     {
-        SetAnimationState("animationState", 0);
+        SetAnimationState("animationState", (int)EPlayerState.IDLE);
         SetAnimationMove("moveSpeed", 0);
     }
 
@@ -77,6 +77,41 @@ public partial class Player
             SetAnimationState("animationState", (int)EPlayerState.JUMP);
             RIGIDBODY.velocity = new Vector3(RIGIDBODY.velocity.x, jumpPower, RIGIDBODY.velocity.z);
             isGrounded = false;
+        }
+    }
+
+    public override void TakeDamage(float _damage)
+    {
+        if (!isDamaged)
+        {
+            SetAnimationState("animationState", (int)EPlayerState.HIT);
+            ChangeState(EPlayerState.HIT);
+            isDamaged = true;
+            health -= _damage;
+
+            if (health <= 0)
+            {
+                Die();
+            }
+        }
+        else
+            isDamaged = false;
+
+        Debug.Log($"현재 플레이어의 Hp:{health}");
+    }
+
+    public void Die()
+    {
+        ChangeState(EPlayerState.DIE);
+        SetAnimationState("animationState", (int)EPlayerState.DIE);
+    }
+
+    public override void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+            ChangeState(EPlayerState.IDLE);
         }
     }
 }

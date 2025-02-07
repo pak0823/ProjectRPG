@@ -271,9 +271,12 @@ MonoBehaviour:
   health: 100
   moveSpeed: 2
   detectionRange: 7
+  attackRange: 1.2
   targetLayer:
     serializedVersion: 2
     m_Bits: 8
+  aiMonster: {fileID: 0}
+  distanceToTarget: 0
 --- !u!1 &2411188951558394283
 GameObject:
   m_ObjectHideFlags: 0
@@ -731,6 +734,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3155623084142092300}
+  - component: {fileID: 3686387701146274286}
   m_Layer: 0
   m_Name: mushroom_head
   m_TagString: Untagged
@@ -757,6 +761,29 @@ Transform:
   m_Father: {fileID: 7172364141787066543}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &3686387701146274286
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8973968179458071773}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.6
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0.3, y: 0, z: 0}
 --- !u!1 &9037646045806700652
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,9 @@ public partial class Player : Character
 {
     public EPlayerState currentState;
     public bool isGrounded;
+    Monster monster;
+
+    bool isDamaged = false;
 
     protected override void Awake()
     {
@@ -92,14 +95,18 @@ public partial class Player : Character
         }
     }
 
-    public override void OnCollisionEnter(Collision collision)
+    public void DestroyObject()
     {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = true;
-            ChangeState(EPlayerState.IDLE);
-        }
+        Destroy(gameObject);
     }
+
+    //public void OnDestroy()
+    //{
+    //    //이 오브젝트가 제거될 시 실행되는 함수임.
+    //    Destroy(gameObject);
+    //}
+
+
 
     public override void OnCollisionExit(Collision collision)
     {

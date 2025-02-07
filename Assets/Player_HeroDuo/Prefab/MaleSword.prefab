@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4886856844161057858}
   m_Layer: 0
   m_Name: MaleSword
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -118,15 +118,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b3501e07c6eabe42b8711b4dc592803, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SPRITERENDERER: {fileID: 0}
-  RIGIDBODY: {fileID: 0}
-  CAPSULECOLLIDER: {fileID: 0}
-  ANIMATOR: {fileID: 0}
-  currentState: 0
-  isGrounded: 0
-  rotationSpeed: 1080
-  jumpPower: 7
-  slidingPower: 10
-  walkSpeed: 4
-  runSpeed: 8
-  moveDirection: {x: 0, y: 0, z: 0}
