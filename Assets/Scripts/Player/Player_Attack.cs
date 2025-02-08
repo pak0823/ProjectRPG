@@ -7,6 +7,7 @@ public partial class Player
     public override void Attack()
     {
         SetAnimationState("animationState", (int)EPlayerState.ATTACK);
+        lastAttackTime = Time.time;
 
     }
 

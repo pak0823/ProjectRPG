@@ -7,40 +7,56 @@ public class Weapon : MonoBehaviour
 {
     bool isAttack = false;
     Monster monster;
+    AiMonster aiMonster;
     public Player player;
+
+    public BoxCollider BOXCOLLIDER;
+    public float attackDuration = 0.3f; // 공격 지속 시간
 
     private void Awake()
     {
-        //player = GetComponent<Player>();
         player = GetComponentInParent<Player>();
+        BOXCOLLIDER = GetComponent<BoxCollider>();
+    }
+
+    private void Update()
+    {
+        if(Input.GetMouseButton(0))
+        {
+            isAttack = true;
+        }
     }
 
     public void OnTriggerEnter(Collider _collider)
     {
-        if (_collider.gameObject.CompareTag("Enemy") && !isAttack)
+        if (_collider.gameObject.CompareTag("Enemy"))
         {
-            monster = _collider.gameObject.GetComponent<Monster>();
+            aiMonster = _collider.gameObject.GetComponent<AiMonster>();
 
-            isAttack = true;
-
-            if (monster != null && player != null)
+            if (aiMonster != null && player != null)
             {
-                monster.TakeDamage(player.giveDamage);
+                if(isAttack)
+                {
+                    aiMonster.TakeDamage(player.giveDamage);
+                    isAttack = false;
+                }
             }
             else
             {
-                Debug.Log($"monster:{monster}, player:{player}");
-            }
+                if (aiMonster == null)
+                    Debug.Log("aiMonster is null!");
+                if (player == null)
+                    Debug.Log("player is null!");
 
-            Debug.Log("Enemy is Damaged!");
+                return;
+            }
         }
     }
     protected void OnTriggerExit(Collider _collider)
     {
-        if (_collider.gameObject.CompareTag("Enemy"))
-        {
-            isAttack = false;
-            Debug.Log("Enemy Damaged after!");
-        }
+        //if (_collider.gameObject.CompareTag("Enemy"))
+        //{
+        //    isAttack = false;
+        //}
     }
 }

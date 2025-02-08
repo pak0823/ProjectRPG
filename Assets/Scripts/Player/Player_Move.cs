@@ -82,11 +82,10 @@ public partial class Player
 
     public override void TakeDamage(float _damage)
     {
-        if (!isDamaged)
+        if (CanHit())
         {
             SetAnimationState("animationState", (int)EPlayerState.HIT);
             ChangeState(EPlayerState.HIT);
-            isDamaged = true;
             health -= _damage;
 
             if (health <= 0)
@@ -95,15 +94,16 @@ public partial class Player
             }
         }
         else
-            isDamaged = false;
+            return;
 
-        Debug.Log($"현재 플레이어의 Hp:{health}");
+        //Debug.Log($"남은 PlayerHP:{health}");
     }
 
     public void Die()
     {
         ChangeState(EPlayerState.DIE);
         SetAnimationState("animationState", (int)EPlayerState.DIE);
+        //Die애니메이션에 DestroyObject() 이벤트 추가
     }
 
     public override void OnCollisionEnter(Collision collision)

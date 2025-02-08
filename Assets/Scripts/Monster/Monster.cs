@@ -16,6 +16,8 @@ public partial class Monster : Character
     public AiMonster aiMonster; //AiMonster 클래스의 인스턴스
     public Player player;
 
+    
+
     protected override void Awake()
     {
         base.Awake();
@@ -38,17 +40,20 @@ public partial class Monster : Character
         health -= _damage;
         SetAnimationState("animationState", (int)EEnemyState.HIT);
 
-        //Debug.Log($"공격을 당했습니다! 현재 HP:{health}");
+        Debug.Log($"남은 MonsterHP:{health}");
     }
 
     public void Die()
     {
         SetAnimationState("animationState", (int)EEnemyState.DIE);
+        //Die애니메이션에 DestroyObject() 이벤트 추가
         // 죽음 로직 추가
     }
 
-    public void DestroyObject()
+    protected override IEnumerator DestroyObject(float _destroytime)
     {
+        CAPSULECOLLIDER.enabled = false;
+        yield return new WaitForSeconds(_destroytime);
         Destroy(gameObject);
     }
 

@@ -4,7 +4,13 @@ using UnityEngine;
 public class AiMonster : MonoBehaviour
 {
     private Monster monster; // Monster 클래스의 인스턴스
-    private EEnemyState currentState = EEnemyState.IDLE;
+    [SerializeField]private EEnemyState currentState = EEnemyState.IDLE;
+
+    // 쿨타임 관련 변수
+    public float attackCooldown = 1.0f; // 공격 쿨타임
+    private float lastAttackTime = 0f; // 마지막 공격 시간
+    public float invincibilityTime = 1.0f; //피격 후 무적시간
+    private float lastHitTime = 0f; // 마지막 피격 시간
 
     protected virtual void Awake()
     {
@@ -23,15 +29,14 @@ public class AiMonster : MonoBehaviour
             switch (currentState)
             {
                 case EEnemyState.IDLE:
-                    monster.Idle();
-                    SearchTarget();
+                    HandleIdleState();
                     break;
                 case EEnemyState.MOVE:
-                    Move();
+                    HandleMoveState();
                     SearchTarget();
                     break;
                 case EEnemyState.ATTACK:
-                    Attack();
+                    HandleAttackState();
                     break;
                 case EEnemyState.DIE:
                     Die();
@@ -41,20 +46,29 @@ public class AiMonster : MonoBehaviour
         }
     }
 
-    public void ChangeState(EEnemyState newState)
+    public void ChangeState(EEnemyState _newState)
     {
-        currentState = newState;
+        currentState = _newState;
     }
 
-    protected void Move()
+    private void HandleIdleState()
+    {
+        monster.Idle();
+        SearchTarget();
+    }
+
+    protected void HandleMoveState()
     {
         if (monster.GetTarget() != null)
         {
-            monster.Move();
-
-            if (monster.distanceToTarget <= monster.attackRange)
+            if(currentState != EEnemyState.HIT)
             {
-                ChangeState(EEnemyState.ATTACK);
+                monster.Move();
+
+                if (monster.distanceToTarget <= monster.attackRange)
+                {
+                    ChangeState(EEnemyState.ATTACK);
+                }
             }
         }
         else
@@ -63,11 +77,19 @@ public class AiMonster : MonoBehaviour
         }
     }
 
-    protected void Attack()
+    protected void HandleAttackState()
     {
         if (monster.GetTarget() != null)
         {
-            monster.Attack();
+            if (currentState != EEnemyState.HIT)
+            {
+                if (CanAttack())
+                {
+                    monster.Attack();
+                    lastAttackTime = Time.time;
+                }
+                    
+            }
         }
         else
         {
@@ -75,9 +97,21 @@ public class AiMonster : MonoBehaviour
         }
     }
 
-    protected void TakeDamage()
+    public void TakeDamage(float _damage)
     {
-        //monster.TakeDamage();
+        if (CanHit())
+        {
+            ChangeState(EEnemyState.HIT);
+            monster.TakeDamage(_damage);
+            lastHitTime = Time.time; // 마지막 피격 시간 업데이트
+
+            if (monster.health <= 0)
+            {
+                ChangeState(EEnemyState.DIE);
+            }
+        }
+        else
+            return;
     }
 
     protected void Die()
@@ -85,9 +119,21 @@ public class AiMonster : MonoBehaviour
         monster.Die();
     }
 
+    private bool CanAttack()
+    {
+        // 쿨타임이 지난 경우에만 true 반환
+        return Time.time >= lastAttackTime + attackCooldown;
+    }
+    private bool CanHit()
+    {
+        // 무적 상태가 아닐 경우 true 반환
+        return Time.time >= lastHitTime + invincibilityTime;
+    }
+
     protected void SearchTarget()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, monster.detectionRange, monster.targetLayer);
+
         if (hitColliders.Length > 0)
         {
             Transform target = hitColliders[0].transform; // 첫 번째 타겟을 설정

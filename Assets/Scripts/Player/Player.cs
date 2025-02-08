@@ -8,7 +8,10 @@ public partial class Player : Character
     public bool isGrounded;
     Monster monster;
 
-    bool isDamaged = false;
+    public float attackCoolDown = 1.0f;
+    public float lastAttackTime = 0.0f;
+    public float invincibilityTime = 1.0f; //피격 후 무적시간
+    private float lastHitTime = 0f; // 마지막 피격 시간
 
     protected override void Awake()
     {
@@ -70,10 +73,19 @@ public partial class Player : Character
             if(currentState != EPlayerState.ATTACK && currentState != EPlayerState.DEFEND) // 공격상태 또는 방어 상태가 아닐 때만 이동 가능
                 ChangeState(EPlayerState.MOVE);
         }
-        if (Input.GetMouseButtonDown(0)) // 마우스 왼쪽 클릭 시 공격
+        if (Input.GetMouseButtonDown(0)) //쿨타임이 지났고, 마우스 왼쪽 클릭 시 공격
         {
-            ChangeState(EPlayerState.ATTACK);
-            Attack();
+            if(CanAttack())
+            {
+                ChangeState(EPlayerState.ATTACK);
+                Attack();
+            }
+            else
+            {
+                Debug.Log($"아직 {Time.time - (lastAttackTime + attackCoolDown)}의 쿨타임이 남았습니다!");
+                return;
+            }
+            
         }
         if (Input.GetMouseButton(1)) //마우스 오른쪽 클릭 시 방어
         {
@@ -95,8 +107,20 @@ public partial class Player : Character
         }
     }
 
-    public void DestroyObject()
+    private bool CanAttack()
     {
+        // 쿨타임이 지난 경우에만 true 반환
+        return Time.time >= lastAttackTime + attackCoolDown;
+    }
+    private bool CanHit()
+    {
+        // 무적 상태가 아닐 경우 true 반환
+        return Time.time >= lastHitTime + invincibilityTime;
+    }
+
+    protected override IEnumerator DestroyObject(float _destroytime)
+    {
+        yield return new WaitForSeconds(_destroytime);
         Destroy(gameObject);
     }
 

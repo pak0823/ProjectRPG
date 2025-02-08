@@ -22,6 +22,7 @@ public abstract partial class Character : MonoBehaviour
     public abstract void Move();
     public abstract void Attack();
     public abstract void TakeDamage(float _damage);
+    protected abstract IEnumerator DestroyObject(float _destroytime);
     public abstract void OnCollisionEnter(Collision collision);
     public abstract void OnCollisionExit(Collision collision);
 }
