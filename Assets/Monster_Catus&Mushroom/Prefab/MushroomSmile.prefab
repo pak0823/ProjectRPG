@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 2842014632187403614}
   - component: {fileID: 1356142669533613787}
   m_Layer: 0
-  m_Name: MushroomSmilePBR
+  m_Name: MushroomSmile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

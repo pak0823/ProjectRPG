@@ -84,9 +84,17 @@ public partial class Player
     {
         if (CanHit())
         {
-            SetAnimationState("animationState", (int)EPlayerState.HIT);
-            ChangeState(EPlayerState.HIT);
-            health -= _damage;
+            if(currentState == EPlayerState.DEFEND)
+            {
+                health -= (_damage * 0.8f);
+            }
+            else
+            {
+                ChangeState(EPlayerState.HIT);
+                SetAnimationState("animationState", (int)EPlayerState.HIT);
+                health -= _damage;
+            }
+            
 
             if (health <= 0)
             {

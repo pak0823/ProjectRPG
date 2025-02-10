@@ -60,6 +60,8 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Player\Player_Move.cs" />
     <Compile Include="Assets\Scripts\UI\CursorController.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerState_Move.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerState_Idle.cs" />
     <Compile Include="Assets\Scripts\Player\Player_Attack.cs" />
     <Compile Include="Assets\Scripts\Character\Character.cs" />
     <Compile Include="Assets\Scripts\Monster\Monster_Move.cs" />
@@ -71,6 +73,8 @@
     <Compile Include="Assets\Scripts\Battle\TopDownCamera.cs" />
     <Compile Include="Assets\Scripts\Common\AutoBulid.cs" />
     <Compile Include="Assets\Scripts\Battle\Weapon.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerState.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerState_Attack.cs" />
     <Compile Include="Assets\Scripts\Common\Enum.cs" />
     <Compile Include="Assets\Scripts\Monster\Monster.cs" />
     <Compile Include="Assets\Scripts\Monster\Monster_Attack.cs" />

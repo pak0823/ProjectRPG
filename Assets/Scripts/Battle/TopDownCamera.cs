@@ -10,6 +10,7 @@ public class TopDownCamera : MonoBehaviour
     public float followSpeed = 10f; // 카메라 이동 속도
     public float rotationSpeed = 360f; // 카메라 회전 속도
     public float currentRotationY = 0f; // 현재 Y축 회전 각도
+    public float currentRotationX = 0f; // 현재 X축 회전 각도
 
     private void Start()
     {
@@ -31,7 +32,7 @@ public class TopDownCamera : MonoBehaviour
     private void UpdateCameraPosition()
     {
         // 회전 각도에 따라 카메라 위치 계산
-        Quaternion rotation = Quaternion.Euler(0, currentRotationY, 0);
+        Quaternion rotation = Quaternion.Euler(currentRotationX, currentRotationY, 0);
         Vector3 positionOffset = rotation * new Vector3(0, height, -distanceFromPlayer);
         transform.position = player.position + positionOffset;
 
@@ -43,9 +44,14 @@ public class TopDownCamera : MonoBehaviour
     {
         // 마우스 이동 입력 감지
         float mouseX = Input.GetAxis("Mouse X");
+        float mouseY = Input.GetAxis("Mouse Y");
 
         // 회전 각도 계산
         currentRotationY += mouseX * rotationSpeed * Time.deltaTime;
+        currentRotationX -= mouseY * rotationSpeed * Time.deltaTime;
+
+        currentRotationX = Mathf.Clamp(currentRotationX, -15f, 40f);
+
         if (currentRotationY >= 360f || currentRotationY <= -360f)
             currentRotationY = 0f;
     }

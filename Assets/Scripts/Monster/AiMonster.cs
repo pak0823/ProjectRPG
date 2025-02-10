@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
+//상태 기반 행동 조합 방식을 적용
 public class AiMonster : MonoBehaviour
 {
     private Monster monster; // Monster 클래스의 인스턴스
@@ -86,9 +87,9 @@ public class AiMonster : MonoBehaviour
                 if (CanAttack())
                 {
                     monster.Attack();
+                    
                     lastAttackTime = Time.time;
                 }
-                    
             }
         }
         else
@@ -136,15 +137,16 @@ public class AiMonster : MonoBehaviour
 
         if (hitColliders.Length > 0)
         {
-            Transform target = hitColliders[0].transform; // 첫 번째 타겟을 설정
-            monster.SetTarget(target);
+            Transform targetPosition = hitColliders[0].transform; // 첫 번째 타겟을 설정
+            Player target = targetPosition.GetComponent<Player>();
+            monster.SetTarget(targetPosition, target);
 
             if(currentState == EEnemyState.IDLE)
                 ChangeState(EEnemyState.MOVE);
         }
         else
         {
-            monster.SetTarget(null); // 타겟을 null로 설정
+            monster.SetTarget(null,null); // 타겟을 null로 설정
             ChangeState(EEnemyState.IDLE);
         }
     }

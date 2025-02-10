@@ -40,6 +40,11 @@ public class Weapon : MonoBehaviour
                     aiMonster.TakeDamage(player.giveDamage);
                     isAttack = false;
                 }
+                if (player.isParrying)  //패링에 성공했을 시 몬스터에게 똑같은 대미지를 넘겨줌
+                {
+                    monster = _collider.gameObject.GetComponent<Monster>();
+                    aiMonster.TakeDamage(monster.giveDamage);
+                }
             }
             else
             {

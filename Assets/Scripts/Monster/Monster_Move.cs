@@ -13,17 +13,17 @@ public partial class Monster
 
     public override void Move()
     {
-        if (target != null)
+        if (targetPosition != null)
         {
             SetAnimationState("animationState", (int)EEnemyState.MOVE);
-            Vector3 direction = (target.position - transform.position).normalized;
+            Vector3 direction = (targetPosition.position - transform.position).normalized;
             direction.y = 0; // Y축 방향 고려
 
             // 타겟과의 거리 계산
-            distanceToTarget = Vector3.Distance(transform.position, target.position);
+            distanceToTarget = Vector3.Distance(transform.position, targetPosition.position);
 
             // 타겟 방향으로 이동
-            rigidBody.MovePosition(Vector3.MoveTowards(transform.position, target.position, Time.deltaTime * moveSpeed));
+            rigidBody.MovePosition(Vector3.MoveTowards(transform.position, targetPosition.position, Time.deltaTime * moveSpeed));
 
             // 타겟을 바라보도록 회전
             Quaternion lookRotation = Quaternion.LookRotation(direction);

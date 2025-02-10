@@ -7,6 +7,7 @@ public partial class Monster
     public override void Attack()
     {
         SetAnimationState("animationState", (int)EEnemyState.ATTACK);
+        target.OnAttackDetected();
         // 공격 로직 추가
     }
 }

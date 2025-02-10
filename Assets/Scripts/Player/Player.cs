@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public partial class Player : Character
@@ -8,10 +9,12 @@ public partial class Player : Character
     public bool isGrounded;
     Monster monster;
 
-    public float attackCoolDown = 1.0f;
-    public float lastAttackTime = 0.0f;
+    public float attackCoolDown = 1.0f; //공격 쿨타임
+    public float lastAttackTime = 0.0f; // 마지막 공격 시간
     public float invincibilityTime = 1.0f; //피격 후 무적시간
     private float lastHitTime = 0f; // 마지막 피격 시간
+    private float monsterAttackTime; //몬스터의 마지막 공격 시간
+    private float attackWindowTime = 0.1f; //패링 가능한 시간
 
     protected override void Awake()
     {
@@ -60,7 +63,7 @@ public partial class Player : Character
         }
     }
 
-    private void ChangeState(EPlayerState _currentstate)
+    public void ChangeState(EPlayerState _currentstate)
     {
         currentState = _currentstate;
     }
@@ -70,12 +73,12 @@ public partial class Player : Character
         //키 입력 확인
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))   //이동
         {
-            if(currentState != EPlayerState.ATTACK && currentState != EPlayerState.DEFEND) // 공격상태 또는 방어 상태가 아닐 때만 이동 가능
+            if (currentState != EPlayerState.ATTACK && currentState != EPlayerState.DEFEND) // 공격상태 또는 방어 상태가 아닐 때만 이동 가능
                 ChangeState(EPlayerState.MOVE);
         }
-        if (Input.GetMouseButtonDown(0)) //쿨타임이 지났고, 마우스 왼쪽 클릭 시 공격
+        if (Input.GetMouseButtonDown(0) && currentState != EPlayerState.HIT) //마우스 왼쪽 클릭 시 공격
         {
-            if(CanAttack())
+            if (CanAttack())//쿨타임 체크
             {
                 ChangeState(EPlayerState.ATTACK);
                 Attack();
@@ -85,19 +88,17 @@ public partial class Player : Character
                 Debug.Log($"아직 {Time.time - (lastAttackTime + attackCoolDown)}의 쿨타임이 남았습니다!");
                 return;
             }
-            
+
         }
         if (Input.GetMouseButton(1)) //마우스 오른쪽 클릭 시 방어
         {
-            Defend();
-
-            if (Input.GetMouseButton(0)) // 마우스 왼쪽 클릭 시 공격
+            if (currentState != EPlayerState.HIT)
             {
-                ChangeState(EPlayerState.ATTACK);
-                Attack();
+                ChangeState(EPlayerState.DEFEND);
+                Defend();
             }
         }
-        if (Input.GetMouseButtonUp(1)) // 마우스 오른쪽 버튼에서 손을 뗐을 때
+        else if (Input.GetMouseButtonUp(1)) // 마우스 오른쪽 버튼에서 손을 뗐을 때
         {
             ChangeState(EPlayerState.IDLE); // Idle 상태로 변경
         }
@@ -105,6 +106,12 @@ public partial class Player : Character
         {
             Jump();
         }
+    }
+
+    // 적의 공격 감지 시 호출
+    public void OnAttackDetected()
+    {
+        monsterAttackTime = Time.time; // 공격이 감지되면 시간 기록
     }
 
     private bool CanAttack()

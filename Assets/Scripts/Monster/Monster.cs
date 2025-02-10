@@ -10,11 +10,11 @@ public partial class Monster : Character
     public float giveDamage = 5f; //현재 공격력
     public LayerMask targetLayer; // 타겟이 위치한 레이어
 
-    public Transform target; // 현재 타겟
+    public Transform targetPosition; // 현재 타겟의 위치
     private Animator animator;
     private Rigidbody rigidBody;
     public AiMonster aiMonster; //AiMonster 클래스의 인스턴스
-    public Player player;
+    public Player target;
 
     
 
@@ -26,13 +26,14 @@ public partial class Monster : Character
         aiMonster = GetComponent<AiMonster>();
     }
 
-    public void SetTarget(Transform newTarget)
+    public void SetTarget(Transform _targetPos, Player _target)
     {
-        target = newTarget;
+        targetPosition = _targetPos;
+        target = _target;
     }
     public Transform GetTarget()
     {
-        return target;
+        return targetPosition;
     }
 
     public override void TakeDamage(float _damage)
@@ -57,6 +58,18 @@ public partial class Monster : Character
         Destroy(gameObject);
     }
 
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            target = other.gameObject.GetComponent<Player>();
+            if (target != null)
+            {
+                target.TakeDamage(giveDamage);
+            }
+        }
+    }
+
     public override void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
@@ -71,18 +84,6 @@ public partial class Monster : Character
         if (collision.gameObject.CompareTag("Ground"))
         {
 
-        }
-    }
-
-    public void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            player = other.gameObject.GetComponent<Player>();
-            if (player != null)
-            {
-                player.TakeDamage(giveDamage);
-            }
         }
     }
 }
