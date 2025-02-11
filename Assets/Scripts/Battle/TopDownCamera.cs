@@ -5,12 +5,12 @@ using UnityEngine.EventSystems;
 public class TopDownCamera : MonoBehaviour
 {
     public Transform player; // 추적할 캐릭터
-    public float distanceFromPlayer = 5f; // 캐릭터와 카메라 간 거리
-    public float height = 3f; // 카메라의 높이
-    public float followSpeed = 10f; // 카메라 이동 속도
-    public float rotationSpeed = 360f; // 카메라 회전 속도
-    public float currentRotationY = 0f; // 현재 Y축 회전 각도
-    public float currentRotationX = 0f; // 현재 X축 회전 각도
+    private float distanceFromPlayer = 5f; // 캐릭터와 카메라 간 거리
+    private float height = 3f; // 카메라의 높이
+    private float followSpeed = 5f; // 카메라 이동 속도
+    private float rotationSpeed = 120f; // 카메라 회전 속도
+    private float currentRotationY = 0f; // 현재 Y축 회전 각도
+    private float currentRotationX = 0f; // 현재 X축 회전 각도
 
     private void Start()
     {
@@ -50,7 +50,7 @@ public class TopDownCamera : MonoBehaviour
         currentRotationY += mouseX * rotationSpeed * Time.deltaTime;
         currentRotationX -= mouseY * rotationSpeed * Time.deltaTime;
 
-        currentRotationX = Mathf.Clamp(currentRotationX, -15f, 40f);
+        currentRotationX = Mathf.Clamp(currentRotationX, -30f, 25f);
 
         if (currentRotationY >= 360f || currentRotationY <= -360f)
             currentRotationY = 0f;

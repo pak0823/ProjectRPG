@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\Common\Shared.cs" />
     <Compile Include="Assets\Scripts\Player\Player_Stat.cs" />
     <Compile Include="Assets\Scripts\Battle\TopDownCamera.cs" />
+    <Compile Include="Assets\Scripts\UI\Ui_Ingame.cs" />
     <Compile Include="Assets\Scripts\Common\AutoBulid.cs" />
     <Compile Include="Assets\Scripts\Battle\Weapon.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerState.cs" />

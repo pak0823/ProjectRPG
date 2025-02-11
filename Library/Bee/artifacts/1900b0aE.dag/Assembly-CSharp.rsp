@@ -375,6 +375,7 @@
 "Assets/Scripts/Player/Player_Move.cs"
 "Assets/Scripts/Player/Player_Stat.cs"
 "Assets/Scripts/UI/CursorController.cs"
+"Assets/Scripts/UI/Ui_Ingame.cs"
 -langversion:9.0
 
 /deterministic

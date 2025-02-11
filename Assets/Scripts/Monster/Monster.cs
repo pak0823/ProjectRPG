@@ -41,7 +41,7 @@ public partial class Monster : Character
         health -= _damage;
         SetAnimationState("animationState", (int)EEnemyState.HIT);
 
-        Debug.Log($"남은 MonsterHP:{health}");
+        //Debug.Log($"남은 MonsterHP:{health}");
     }
 
     public void Die()

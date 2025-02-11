@@ -14,7 +14,7 @@ public partial class Player : Character
     public float invincibilityTime = 1.0f; //피격 후 무적시간
     private float lastHitTime = 0f; // 마지막 피격 시간
     private float monsterAttackTime; //몬스터의 마지막 공격 시간
-    private float attackWindowTime = 0.1f; //패링 가능한 시간
+    private float attackWindowTime = 0.3f; //패링 가능한 시간
 
     protected override void Awake()
     {
@@ -92,7 +92,7 @@ public partial class Player : Character
         }
         if (Input.GetMouseButton(1)) //마우스 오른쪽 클릭 시 방어
         {
-            if (currentState != EPlayerState.HIT)
+            if (currentState != EPlayerState.HIT && currentState != EPlayerState.DEFENDHIT)
             {
                 ChangeState(EPlayerState.DEFEND);
                 Defend();
@@ -105,6 +105,17 @@ public partial class Player : Character
         if (Input.GetKey(KeyCode.Space))
         {
             Jump();
+        }
+
+        if (Input.GetKey(KeyCode.E))
+        {
+            ChangeState(EPlayerState.ATTACK);
+            SetAnimationState("animationState", 10);
+        }
+        else if (Input.GetKey(KeyCode.R))
+        {
+            ChangeState(EPlayerState.ATTACK);
+            SetAnimationState("animationState", 11);
         }
     }
 
@@ -138,7 +149,13 @@ public partial class Player : Character
     //}
 
 
-
+    //public override void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Ground"))
+    //    {
+    //        isGrounded = true;
+    //    }
+    //}
     public override void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))

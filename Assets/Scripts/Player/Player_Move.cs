@@ -87,6 +87,8 @@ public partial class Player
             if(currentState == EPlayerState.DEFEND)
             {
                 health -= (_damage * 0.8f);
+                ChangeState(EPlayerState.DEFENDHIT);
+                SetAnimationState("animationState", (int)EPlayerState.DEFENDHIT);
             }
             else
             {
@@ -104,7 +106,7 @@ public partial class Player
         else
             return;
 
-        //Debug.Log($"남은 PlayerHP:{health}");
+        Debug.Log($"남은 PlayerHP:{health}");
     }
 
     public void Die()
