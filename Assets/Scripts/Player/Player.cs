@@ -53,6 +53,8 @@ public partial class Player : Character
 
         if (currentState == EPlayerState.IDLE)
             Idle();
+
+        
     }
 
     void FixedUpdate()
@@ -61,6 +63,8 @@ public partial class Player : Character
         {
             Move();
         }
+        if (runEndTime <= Time.time - 3f)
+            IncreaseStamina();
     }
 
     public void ChangeState(EPlayerState _currentstate)
@@ -102,17 +106,18 @@ public partial class Player : Character
         {
             ChangeState(EPlayerState.IDLE); // Idle 상태로 변경
         }
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space) && isGrounded)
         {
             Jump();
         }
 
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             ChangeState(EPlayerState.ATTACK);
             SetAnimationState("animationState", 10);
+            StartCoroutine(Shared.Ui_Ingame.Cooldown());
         }
-        else if (Input.GetKey(KeyCode.R))
+        else if (Input.GetKeyDown(KeyCode.R))
         {
             ChangeState(EPlayerState.ATTACK);
             SetAnimationState("animationState", 11);
@@ -156,11 +161,25 @@ public partial class Player : Character
     //        isGrounded = true;
     //    }
     //}
+    public override void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+            ChangeState(EPlayerState.IDLE);
+        }
+
+        //Debug.Log(collision.gameObject.name);
+    }
+    public void OnCollisionStay(Collision collision)
+    {
+        //Debug.Log(collision.gameObject.name);
+    }
+
     public override void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            isGrounded = false;
         }
     }
 }

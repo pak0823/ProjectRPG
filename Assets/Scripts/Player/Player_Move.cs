@@ -5,6 +5,9 @@ using UnityEngine;
 public partial class Player
 {
     public float rotationSpeed = 1080f; //회전 속도
+    public bool usingStamina = false;
+
+    public float runEndTime = 0f; //달리기 끝난 시간
 
     public override void Idle()
     {
@@ -14,7 +17,9 @@ public partial class Player
 
     public override void Move()
     {
+        
         SetAnimationState("animationState", 0);
+        SetAnimationMove("moveSpeed", currentSpeed);
 
         // 이동 방향 초기화
         moveDirection = Vector3.zero;
@@ -37,6 +42,20 @@ public partial class Player
             // 오른쪽으로 회전
             moveDirection += Vector3.right; // 오른쪽으로 이동
         }
+        if (Input.GetKey(KeyCode.Space))
+        {
+            Jump();
+        }
+        if (Input.GetKey(KeyCode.LeftShift) && currentStamina > 0)    //달리면서 이동
+        {
+            currentSpeed = runSpeed;
+            DecreaseStamina();
+        }
+        else
+        {
+            usingStamina = false;
+            currentSpeed = walkSpeed;
+        }
 
         // 카메라의 방향을 가져오기
         Vector3 cameraForward = Camera.main.transform.forward;
@@ -53,15 +72,8 @@ public partial class Player
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
 
             // Rigidbody.velocity를 사용하여 이동
-            float moveSpeed = Mathf.Lerp(walkSpeed, runSpeed, Input.GetAxis("Sprint"));
-            RIGIDBODY.velocity = desiredDirection * moveSpeed;
+            RIGIDBODY.velocity = desiredDirection * currentSpeed;
         }
-
-        //shift키를 안누르면 최대 0.5, shift키를 누르면 초대 1까지 값이 바뀌게 된다
-        float offset = 0.5f + Input.GetAxis("Sprint") * 0.5f;
-
-        // moveParameter 값에 따라 애니메이션 재생 (0: 대기, 0.5: 걷기, 1: 뛰기)
-        SetAnimationMove("moveSpeed", offset);
 
         if (moveDirection == Vector3.zero)
         {
@@ -69,9 +81,31 @@ public partial class Player
         }
     }
 
+    //스태미너 증가 함수
+    private void IncreaseStamina()
+    {
+        if (currentStamina <= maxStamina && !usingStamina)
+        {
+            currentStamina += 1f;
+            Shared.Ui_Ingame.StaminaBar();
+        }
+    }
+    //스태미너 감소 함수
+    private void DecreaseStamina()
+    {
+        if (currentStamina >= 0)
+        {
+            usingStamina = true;
+            currentStamina -= 1f;
+            runEndTime = Time.time;
+            Shared.Ui_Ingame.StaminaBar();
+        }
+    }
+
     private void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        //현재 이동하면서 점프가 안됨 수정 필요
+        if(Input.GetKeyDown(KeyCode.Space))
         {
             ChangeState(EPlayerState.JUMP);
             SetAnimationState("animationState", (int)EPlayerState.JUMP);
@@ -86,7 +120,7 @@ public partial class Player
         {
             if(currentState == EPlayerState.DEFEND)
             {
-                health -= (_damage * 0.8f);
+                currentHealth -= (_damage * 0.8f);
                 ChangeState(EPlayerState.DEFENDHIT);
                 SetAnimationState("animationState", (int)EPlayerState.DEFENDHIT);
             }
@@ -94,19 +128,20 @@ public partial class Player
             {
                 ChangeState(EPlayerState.HIT);
                 SetAnimationState("animationState", (int)EPlayerState.HIT);
-                health -= _damage;
+                currentHealth -= _damage;
             }
-            
 
-            if (health <= 0)
+            if (currentHealth <= 0)
             {
                 Die();
             }
+
+            Shared.Ui_Ingame.HealthBar(currentHealth);
         }
         else
             return;
 
-        Debug.Log($"남은 PlayerHP:{health}");
+        Debug.Log($"남은 PlayerHP:{currentHealth}");
     }
 
     public void Die()
@@ -114,14 +149,5 @@ public partial class Player
         ChangeState(EPlayerState.DIE);
         SetAnimationState("animationState", (int)EPlayerState.DIE);
         //Die애니메이션에 DestroyObject() 이벤트 추가
-    }
-
-    public override void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = true;
-            ChangeState(EPlayerState.IDLE);
-        }
     }
 }
