@@ -53,8 +53,6 @@ public partial class Player : Character
 
         if (currentState == EPlayerState.IDLE)
             Idle();
-
-        
     }
 
     void FixedUpdate()
@@ -80,9 +78,9 @@ public partial class Player : Character
             if (currentState != EPlayerState.ATTACK && currentState != EPlayerState.DEFEND) // 공격상태 또는 방어 상태가 아닐 때만 이동 가능
                 ChangeState(EPlayerState.MOVE);
         }
-        if (Input.GetMouseButtonDown(0) && currentState != EPlayerState.HIT) //마우스 왼쪽 클릭 시 공격
+        if (Input.GetMouseButtonDown(0)) //마우스 왼쪽 클릭 시 공격
         {
-            if (CanAttack())//쿨타임 체크
+            if (CanAttack() && currentState != EPlayerState.HIT)//쿨타임 체크
             {
                 ChangeState(EPlayerState.ATTACK);
                 Attack();
@@ -113,14 +111,21 @@ public partial class Player : Character
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            ChangeState(EPlayerState.ATTACK);
-            SetAnimationState("animationState", 10);
-            StartCoroutine(Shared.Ui_Ingame.Cooldown());
+            if (!Shared.Ui_Ingame.isCooldown[0])
+            {
+                ChangeState(EPlayerState.ATTACK);
+                SetAnimationState("animationState", 10);
+                UseSkill(0);
+            }
         }
         else if (Input.GetKeyDown(KeyCode.R))
         {
-            ChangeState(EPlayerState.ATTACK);
-            SetAnimationState("animationState", 11);
+            if (!Shared.Ui_Ingame.isCooldown[1])
+            {
+                ChangeState(EPlayerState.ATTACK);
+                SetAnimationState("animationState", 11);
+                UseSkill(1);
+            }
         }
     }
 

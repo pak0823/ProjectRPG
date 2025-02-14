@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,9 +14,9 @@ public class Ui_Ingame : MonoBehaviour
     public float maxStamina = 0f;   //최대 Stamina
     public float currentStamina = 0f; // 현재 Stamina
 
-    public Slider cooldownSlider; // 연결할 슬라이더
-    public float cooldownTime = 5f; // 스킬 쿨타임
-    private bool isCooldown = false;
+    public Slider[] skillCooldownSliders; // 스킬 쿨타임 슬라이더 배열
+    public float[] cooldownTimes; // 각 스킬의 쿨타임
+    public bool[] isCooldown; // 각 스킬의 쿨타임 상태
 
 
 
@@ -25,21 +24,30 @@ public class Ui_Ingame : MonoBehaviour
     {
         Shared.Ui_Ingame = this;
 
-        maxHP = player.maxHealth;
+        //maxHP = player.maxHealth;
         maxStamina = player.maxStamina;
 
         currentHp = maxHP; // 현재 HP를 최대 HP로 초기화
         currentStamina = maxStamina;
         UpdateHPBar();
+
+        // 쿨타임 배열 초기화
+        isCooldown = new bool[cooldownTimes.Length];
+        for (int i = 0; i < isCooldown.Length; i++)
+        {
+            isCooldown[i] = false;
+            skillCooldownSliders[i].maxValue = cooldownTimes[i];
+            skillCooldownSliders[i].value = 0; // 초기값 설정
+        }
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.I))
-            InvenBtn();
-        else if (Input.GetKeyDown(KeyCode.M))
-            MapBtn();
-        else if (Input.GetKeyDown(KeyCode.Escape))
-            OptionBtn();
+        //if (Input.GetKeyDown(KeyCode.I))
+        //    InvenBtn();
+        //else if (Input.GetKeyDown(KeyCode.M))
+        //    MapBtn();
+        //else if (Input.GetKeyDown(KeyCode.Escape))
+        //    OptionBtn();
     }
 
     // HP를 감소시키는 메서드
@@ -49,11 +57,6 @@ public class Ui_Ingame : MonoBehaviour
         currentHp = Mathf.Clamp(currentHp, 0, maxHP); // HP를 0과 maxHP 사이로 제한
         UpdateHPBar();
     }
-
-    //public void IncreaseHealth(float _currentHp)
-    //{
-    //    currentHp = _currentHp;
-    //}
 
     public void StaminaBar()
     {
@@ -72,34 +75,43 @@ public class Ui_Ingame : MonoBehaviour
         staminaSlider.value = currentStamina;   // 슬라이더의 값을 현재 staimna로 설정
     }
 
-    public void OptionBtn()
-    {
-        Debug.Log("Open Option");
-    }
+    //public void OptionBtn()
+    //{
+    //    Debug.Log("Open Option");
+    //}
 
-    public void InvenBtn()
-    {
-        Debug.Log("Open Inven");
-    }
+    //public void InvenBtn()
+    //{
+    //    Debug.Log("Open Inven");
+    //}
 
-    public void MapBtn()
-    {
-        Debug.Log("Open Map");
-    }
+    //public void MapBtn()
+    //{
+    //    Debug.Log("Open Map");
+    //}
 
-    public IEnumerator Cooldown()
+    // 스킬 쿨타임 시작
+    public void StartCooldown(int skillIndex)
     {
-        isCooldown = true;
-        cooldownSlider.maxValue = cooldownTime;
-        cooldownSlider.value = cooldownTime; // 슬라이더를 쿨타임으로 설정
-
-        while (cooldownSlider.value > 0)
+        if (!isCooldown[skillIndex])
         {
-            cooldownSlider.value -= Time.deltaTime; // 슬라이더 값을 매 프레임 감소
+            StartCoroutine(Cooldown(skillIndex));
+        }
+    }
+
+    // 특정 스킬의 쿨타임 처리
+    private IEnumerator Cooldown(int skillIndex)
+    {
+        isCooldown[skillIndex] = true;
+        skillCooldownSliders[skillIndex].value = cooldownTimes[skillIndex]; // 슬라이더를 쿨타임으로 설정
+
+        while (skillCooldownSliders[skillIndex].value > 0)
+        {
+            skillCooldownSliders[skillIndex].value -= Time.deltaTime; // 슬라이더 값을 매 프레임 감소
             yield return null; // 다음 프레임까지 대기
         }
 
-        cooldownSlider.value = 0; // 쿨타임이 끝나면 슬라이더를 0으로 설정
-        isCooldown = false; // 쿨타임 상태 해제
+        skillCooldownSliders[skillIndex].value = 0; // 쿨타임이 끝나면 슬라이더를 0으로 설정
+        isCooldown[skillIndex] = false; // 쿨타임 상태 해제
     }
 }

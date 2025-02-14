@@ -374,7 +374,13 @@
 "Assets/Scripts/Player/Player_Attack.cs"
 "Assets/Scripts/Player/Player_Move.cs"
 "Assets/Scripts/Player/Player_Stat.cs"
+"Assets/Scripts/UI/BaseUi.cs"
 "Assets/Scripts/UI/CursorController.cs"
+"Assets/Scripts/UI/HealthBarUi.cs"
+"Assets/Scripts/UI/InGame/HpBar.cs"
+"Assets/Scripts/UI/SkillCoolDownUi.cs"
+"Assets/Scripts/UI/StaminaBarUi.cs"
+"Assets/Scripts/UI/UiManager.cs"
 "Assets/Scripts/UI/Ui_Ingame.cs"
 -langversion:9.0
 

@@ -9,8 +9,14 @@ public partial class Player
     {
         SetAnimationState("animationState", (int)EPlayerState.ATTACK);
         lastAttackTime = Time.time;
-
     }
+
+    public void UseSkill(int skillIndex)
+    {
+        // 스킬 사용 로직
+        Shared.Ui_Ingame.StartCooldown(skillIndex);
+    }
+
 
     public void Defend()
     {

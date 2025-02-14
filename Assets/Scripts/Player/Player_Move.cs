@@ -39,12 +39,15 @@ public partial class Player
         }
         if (Input.GetKey(KeyCode.D))
         {
-            // 오른쪽으로 회전
             moveDirection += Vector3.right; // 오른쪽으로 이동
         }
         if (Input.GetKey(KeyCode.Space))
         {
             Jump();
+        }
+        if(Input.GetMouseButton(0))
+        {
+            ChangeState(EPlayerState.ATTACK);
         }
         if (Input.GetKey(KeyCode.LeftShift) && currentStamina > 0)    //달리면서 이동
         {
