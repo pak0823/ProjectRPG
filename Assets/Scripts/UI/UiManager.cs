@@ -6,19 +6,19 @@ public class UiManager : MonoBehaviour
     public StaminaBarUi staminaBarUi;
     public SkillCooldownUi skillCooldownUi;
 
-    private void Start()
-    {
-        // UI 초기화
-        healthBarUi.Initialize();
-        staminaBarUi.Initialize();
-        skillCooldownUi.Initialize();
-    }
+    //private void Start()
+    //{
+    //    // UI 초기화
+    //    healthBarUi.Initialize();
+    //    staminaBarUi.Initialize();
+    //    skillCooldownUi.Initialize();
+    //}
 
-    private void Update()
-    {
-        // UI 업데이트
-        healthBarUi.UpdateUI();
-        staminaBarUi.UpdateUI();
-        skillCooldownUi.UpdateUI();
-    }
+    //private void Update()
+    //{
+    //    // UI 업데이트
+    //    healthBarUi.UpdateUI();
+    //    staminaBarUi.UpdateUI();
+    //    skillCooldownUi.UpdateUI();
+    //}
 }

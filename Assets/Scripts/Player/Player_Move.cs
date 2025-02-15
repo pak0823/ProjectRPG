@@ -90,7 +90,7 @@ public partial class Player
         if (currentStamina <= maxStamina && !usingStamina)
         {
             currentStamina += 1f;
-            Shared.Ui_Ingame.StaminaBar();
+            Shared.staminaBar.Stamina(currentStamina);
         }
     }
     //스태미너 감소 함수
@@ -101,7 +101,7 @@ public partial class Player
             usingStamina = true;
             currentStamina -= 1f;
             runEndTime = Time.time;
-            Shared.Ui_Ingame.StaminaBar();
+            Shared.staminaBar.Stamina(currentStamina);
         }
     }
 
@@ -139,7 +139,7 @@ public partial class Player
                 Die();
             }
 
-            Shared.Ui_Ingame.HealthBar(currentHealth);
+            Shared.hpBar.HealthBar(currentHealth);
         }
         else
             return;

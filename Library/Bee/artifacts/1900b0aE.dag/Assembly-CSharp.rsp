@@ -378,6 +378,8 @@
 "Assets/Scripts/UI/CursorController.cs"
 "Assets/Scripts/UI/HealthBarUi.cs"
 "Assets/Scripts/UI/InGame/HpBar.cs"
+"Assets/Scripts/UI/InGame/SkillCoolDown.cs"
+"Assets/Scripts/UI/InGame/StaminaBar.cs"
 "Assets/Scripts/UI/SkillCoolDownUi.cs"
 "Assets/Scripts/UI/StaminaBarUi.cs"
 "Assets/Scripts/UI/UiManager.cs"

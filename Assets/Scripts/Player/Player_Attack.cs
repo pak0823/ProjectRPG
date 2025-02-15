@@ -4,7 +4,7 @@ using UnityEngine;
 
 public partial class Player
 {
-    public bool isParrying = false;
+    private bool isParrying = false;
     public override void Attack()
     {
         SetAnimationState("animationState", (int)EPlayerState.ATTACK);
@@ -14,7 +14,7 @@ public partial class Player
     public void UseSkill(int skillIndex)
     {
         // 스킬 사용 로직
-        Shared.Ui_Ingame.StartCooldown(skillIndex);
+        Shared.skillCoolDown.StartCooldown(skillIndex);
     }
 
 
@@ -38,4 +38,6 @@ public partial class Player
             }
         }
     }
+
+    public bool IsParrying { get { return isParrying; } }
 }

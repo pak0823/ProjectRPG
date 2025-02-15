@@ -5,26 +5,26 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    bool isAttack = false;
+    public bool isAttack = false;
     Monster monster;
     AiMonster aiMonster;
-    public Player player;
+    Player player;
 
-    public BoxCollider BOXCOLLIDER;
     public float attackDuration = 0.3f; // 공격 지속 시간
 
     private void Awake()
     {
         player = GetComponentInParent<Player>();
-        BOXCOLLIDER = GetComponent<BoxCollider>();
     }
 
     private void Update()
     {
-        if(Input.GetMouseButton(0))
+        if(player.currentState == EPlayerState.ATTACK)
         {
             isAttack = true;
         }
+        else
+            isAttack = false;
     }
 
     public void OnTriggerEnter(Collider _collider)
@@ -40,7 +40,7 @@ public class Weapon : MonoBehaviour
                     aiMonster.TakeDamage(player.giveDamage);
                     isAttack = false;
                 }
-                if (player.isParrying)  //패링에 성공했을 시 몬스터에게 똑같은 대미지를 넘겨줌
+                if (player.IsParrying)  //패링에 성공했을 시 몬스터에게 똑같은 대미지를 넘겨줌
                 {
                     monster = _collider.gameObject.GetComponent<Monster>();
                     aiMonster.TakeDamage(monster.giveDamage);

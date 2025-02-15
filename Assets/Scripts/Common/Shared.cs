@@ -4,5 +4,9 @@ using UnityEngine;
 
 public static class Shared
 {
-    public static Ui_Ingame Ui_Ingame;
+    //Ui Å¬·¡½º
+    public static Ui_Ingame ui_Ingame;
+    public static HpBar hpBar;
+    public static StaminaBar staminaBar;
+    public static SkillCoolDown skillCoolDown;
 }

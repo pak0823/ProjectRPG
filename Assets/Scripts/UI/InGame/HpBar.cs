@@ -8,17 +8,15 @@ public class HpBar : MonoBehaviour
     public Player player;
     public Slider hpSlider; // 연결할 Hp 슬라이더
 
-    public float maxHP = 0f; // 최대 Hp
+    private float maxHP = 0f; // 최대 Hp
     private float currentHp = 0f;    //현재 Hp
 
     private void Start()
     {
-        
-    }
+        Shared.hpBar = this;
 
-    private void Update()
-    {
-        
+        maxHP = player.GetMaxHp;
+        currentHp = player.GetCurrentHp;
     }
 
     public void HealthBar(float _health)

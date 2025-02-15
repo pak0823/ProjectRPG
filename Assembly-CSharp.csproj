@@ -72,6 +72,7 @@
     <Compile Include="Assets\Scripts\UI\InGame\HpBar.cs" />
     <Compile Include="Assets\Scripts\Common\Shared.cs" />
     <Compile Include="Assets\Scripts\Player\Player_Stat.cs" />
+    <Compile Include="Assets\Scripts\UI\InGame\StaminaBar.cs" />
     <Compile Include="Assets\Scripts\Battle\TopDownCamera.cs" />
     <Compile Include="Assets\Scripts\UI\Ui_Ingame.cs" />
     <Compile Include="Assets\Scripts\Common\AutoBulid.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Assets\Scripts\Player\PlayerState.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerState_Attack.cs" />
     <Compile Include="Assets\Scripts\UI\BaseUi.cs" />
+    <Compile Include="Assets\Scripts\UI\InGame\SkillCoolDown.cs" />
     <Compile Include="Assets\Scripts\Common\Enum.cs" />
     <Compile Include="Assets\Scripts\Monster\Monster.cs" />
     <Compile Include="Assets\Scripts\Monster\Monster_Attack.cs" />

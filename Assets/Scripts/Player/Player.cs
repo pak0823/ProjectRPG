@@ -111,7 +111,7 @@ public partial class Player : Character
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (!Shared.Ui_Ingame.isCooldown[0])
+            if (!Shared.skillCoolDown.isCooldown[0])
             {
                 ChangeState(EPlayerState.ATTACK);
                 SetAnimationState("animationState", 10);
@@ -120,7 +120,7 @@ public partial class Player : Character
         }
         else if (Input.GetKeyDown(KeyCode.R))
         {
-            if (!Shared.Ui_Ingame.isCooldown[1])
+            if (!Shared.skillCoolDown.isCooldown[1])
             {
                 ChangeState(EPlayerState.ATTACK);
                 SetAnimationState("animationState", 11);
