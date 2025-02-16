@@ -12,9 +12,9 @@ public class StaminaBar : MonoBehaviour
     private float currentStamina = 0f; // ÇöÀç Stamina
     void Start()
     {
+        Shared.staminaBar = this;
         maxStamina = player.GetMaxStamina;
         currentStamina = player.GetCurrentStamina;
-        Shared.staminaBar = this;
     }
 
     public void Stamina(float _stamina)

@@ -5,6 +5,7 @@ using UnityEngine;
 public partial class Player
 {
     private bool isParrying = false;
+    private float lastDecreaseTime;
     public override void Attack()
     {
         SetAnimationState("animationState", (int)EPlayerState.ATTACK);
@@ -18,11 +19,22 @@ public partial class Player
     }
 
 
-    public void Defend()
+    private void Defend()
     {
-        SetAnimationState("animationState", (int)EPlayerState.DEFEND);
-        if(Input.GetMouseButtonDown(1))
+        if(Input.GetMouseButton(1) && currentStamina > 0)
         {
+            SetAnimationState("animationState", (int)EPlayerState.DEFEND);
+            
+            if (Time.time >= decreaseEndTime + 0.05f)
+            {
+                DecreaseStamina();
+                decreaseEndTime = Time.time;
+            }
+            else
+            {
+                usingStamina = false;
+            }
+
             if (monsterAttackTime > 0)
             {
                 if (Time.time < monsterAttackTime + attackWindowTime) //패링 가능시간 내에 패링을 했는지 확인
@@ -35,6 +47,11 @@ public partial class Player
                 {
                     isParrying = false;
                 }
+            }
+
+            if (currentStamina <= 0)
+            {
+                ChangeState(EPlayerState.IDLE);
             }
         }
     }

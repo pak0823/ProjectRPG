@@ -17,9 +17,9 @@ public partial class Player
     public Vector3 moveDirection;  //현재 방향
 
 
-    public float GetMaxHp{get { return maxHealth; } }
-    public float GetMaxStamina{ get { return maxStamina; } }
-    public float GetCurrentHp{get { return currentHealth; } }
-    public float GetCurrentStamina{get { return currentStamina; } }
+    public float GetMaxHp{ /*set { maxHealth = value; }*/ get { return maxHealth; } }
+    public float GetMaxStamina{ /*set { maxStamina = value; }*/ get { return maxStamina; } }
+    public float GetCurrentHp{ /*set { currentHealth = value; }*/ get { return currentHealth; } }
+    public float GetCurrentStamina{ /*set { currentStamina = value; }*/ get { return currentStamina; } }
 }
 

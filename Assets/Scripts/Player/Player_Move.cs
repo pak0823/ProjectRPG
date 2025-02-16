@@ -7,7 +7,7 @@ public partial class Player
     public float rotationSpeed = 1080f; //회전 속도
     public bool usingStamina = false;
 
-    public float runEndTime = 0f; //달리기 끝난 시간
+    public float decreaseEndTime = 0f; //스태미너 감소가 끝난 시간
 
     public override void Idle()
     {
@@ -89,7 +89,7 @@ public partial class Player
     {
         if (currentStamina <= maxStamina && !usingStamina)
         {
-            currentStamina += 1f;
+            currentStamina += 0.3f;
             Shared.staminaBar.Stamina(currentStamina);
         }
     }
@@ -99,8 +99,8 @@ public partial class Player
         if (currentStamina >= 0)
         {
             usingStamina = true;
-            currentStamina -= 1f;
-            runEndTime = Time.time;
+            currentStamina -= 0.5f;
+            decreaseEndTime = Time.time;
             Shared.staminaBar.Stamina(currentStamina);
         }
     }
@@ -121,11 +121,19 @@ public partial class Player
     {
         if (CanHit())
         {
-            if(currentState == EPlayerState.DEFEND)
+            if (currentState == EPlayerState.DEFEND)
             {
-                currentHealth -= (_damage * 0.8f);
-                ChangeState(EPlayerState.DEFENDHIT);
-                SetAnimationState("animationState", (int)EPlayerState.DEFENDHIT);
+                if (!isParrying)
+                {
+                    ChangeState(EPlayerState.DEFENDHIT);
+                    SetAnimationState("animationState", (int)EPlayerState.DEFENDHIT);
+                    currentHealth -= (_damage * 0.8f);
+                }
+                else
+                {
+                    //패링에 성공했을 경우엔 대미지를 입지 않고 이펙트가 실행되게 추가 예정
+                    return;
+                }
             }
             else
             {

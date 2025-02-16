@@ -53,6 +53,9 @@ public partial class Player : Character
 
         if (currentState == EPlayerState.IDLE)
             Idle();
+
+        if (decreaseEndTime <= Time.time - 3f)
+            IncreaseStamina();
     }
 
     void FixedUpdate()
@@ -61,8 +64,6 @@ public partial class Player : Character
         {
             Move();
         }
-        if (runEndTime <= Time.time - 3f)
-            IncreaseStamina();
     }
 
     public void ChangeState(EPlayerState _currentstate)
