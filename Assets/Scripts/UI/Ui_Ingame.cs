@@ -4,12 +4,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Ui_Ingame : MonoBehaviour
+public class Ui_Ingame : BaseUi
 {
     public Player player;
-    public bool isShow = false;
-
     public GameObject invenInterface;
+    public GameObject optionInterface;
+    public GameObject mapInterface;
 
     private void Start()
     {
@@ -18,24 +18,25 @@ public class Ui_Ingame : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.I))
-            ShowInven();
-        //else if (Input.GetKeyDown(KeyCode.M))
-        //    MapBtn();
-        //else if (Input.GetKeyDown(KeyCode.Escape))
-        //    OptionBtn();
+            ToggleInterface(invenInterface);
+        else if (Input.GetKeyDown(KeyCode.M))
+            ToggleInterface(mapInterface);
+        else if (Input.GetKeyDown(KeyCode.Escape))
+            ToggleInterface(optionInterface);
     }
-
-    public void ShowInven()
+    private void ToggleInterface(GameObject uiElement)
     {
-        if(isShow)
+        if (isShow)
         {
-            invenInterface.gameObject.SetActive(false);
-            isShow = false;
+            Hide(uiElement);
         }
         else
         {
-            invenInterface.gameObject.SetActive(true);
-            isShow =true;
+            Show(uiElement);
         }
     }
+
+    public void ShowInven() => ToggleInterface(invenInterface);
+    public void ShowOption() => ToggleInterface(optionInterface);
+    public void ShowMap() => ToggleInterface(mapInterface);
 }

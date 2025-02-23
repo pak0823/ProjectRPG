@@ -9,4 +9,5 @@ public static class Shared
     public static HpBar hpBar;
     public static StaminaBar staminaBar;
     public static SkillCoolDown skillCoolDown;
+    public static BaseUi baseUi;
 }
