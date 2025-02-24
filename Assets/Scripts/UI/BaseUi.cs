@@ -5,46 +5,29 @@ public class BaseUi : MonoBehaviour
 {
     public bool isShow = false;
 
-    public virtual void Initialize()
-    {
-        
-    }
+    public virtual void Initialize() { }
 
-    public virtual void UpdateUI() 
-    { 
-    
-    }
+    public virtual void UpdateUI() { }
 
-    protected void Start()
+    protected virtual void Start()
     {
-        Debug.Log("base Start");
+        Debug.Log("Base Start");
         Shared.baseUi = this;
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked; // 마우스 포인터를 중앙에 고정
     }
 
-    public virtual void Show(GameObject _showObject)
+    public virtual void Show()
     {
         isShow = true;
-        ToggleCursorOn();
-        _showObject.gameObject.SetActive(true);
+        Shared.cursorController.ToggleCursorOn();
+        gameObject.SetActive(true);
     }
-    public virtual void Hide(GameObject _showObject) 
+
+    public virtual void Hide()
     {
         isShow = false;
-        ToggleCursorOff();
-        _showObject.gameObject.SetActive(false);
-    }
-    private void ToggleCursorOn()
-    {
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None; // 고정 해제
-    }
-    private void ToggleCursorOff()
-    {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked; // 다시 중앙에 고정
+        Shared.cursorController.ToggleCursorOff();
+        gameObject.SetActive(false);
     }
 
-
+    
 }

@@ -6,37 +6,32 @@ using UnityEngine.UI;
 
 public class Ui_Ingame : BaseUi
 {
-    public Player player;
-    public GameObject invenInterface;
-    public GameObject optionInterface;
-    public GameObject mapInterface;
+    public BaseUi invenInterface;
+    public BaseUi optionInterface;
+    public BaseUi mapInterface;
 
-    private void Start()
+    protected override void Start()
     {
         Shared.ui_Ingame = this;
     }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.I))
-            ToggleInterface(invenInterface);
+            Shared.uiManager.ShowInterface(invenInterface);
         else if (Input.GetKeyDown(KeyCode.M))
-            ToggleInterface(mapInterface);
+            Shared.uiManager.ShowInterface(mapInterface);
         else if (Input.GetKeyDown(KeyCode.Escape))
-            ToggleInterface(optionInterface);
-    }
-    private void ToggleInterface(GameObject uiElement)
-    {
-        if (isShow)
         {
-            Hide(uiElement);
-        }
-        else
-        {
-            Show(uiElement);
+            // 현재 열려 있는 UI가 있는지 확인
+            if (Shared.uiManager.IsAnyInterfaceOpen())
+            {
+                Shared.uiManager.HideInterface(); // 열려 있는 UI 닫기
+            }
+            else
+            {
+                Shared.uiManager.ShowInterface(optionInterface); // optionInterface 열기
+            }
         }
     }
-
-    public void ShowInven() => ToggleInterface(invenInterface);
-    public void ShowOption() => ToggleInterface(optionInterface);
-    public void ShowMap() => ToggleInterface(mapInterface);
 }

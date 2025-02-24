@@ -74,8 +74,10 @@ public partial class Player
             Quaternion toRotation = Quaternion.LookRotation(desiredDirection);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
 
-            // Rigidbody.velocity를 사용하여 이동
-            RIGIDBODY.velocity = desiredDirection * currentSpeed;
+            // Rigidbody에 힘을 추가하여 이동
+            Vector3 velocity = desiredDirection * currentSpeed;
+            velocity.y = RIGIDBODY.velocity.y; // 현재 Y축 속도 유지
+            RIGIDBODY.velocity = velocity; // 새로운 속도 설정
         }
 
         if (moveDirection == Vector3.zero)
