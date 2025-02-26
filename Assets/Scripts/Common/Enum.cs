@@ -9,7 +9,8 @@ public enum EPlayerState
     HIT,
     DIE,
     DEFENDHIT,
-    RUN
+    RUN,
+    SKILL
 }
 
 public enum EEnemyState

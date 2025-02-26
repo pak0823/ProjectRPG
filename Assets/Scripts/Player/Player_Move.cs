@@ -24,40 +24,42 @@ public partial class Player
         // 이동 방향 초기화
         moveDirection = Vector3.zero;
 
-        // W, A, S, D 키 입력 처리
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetMouseButton(0) && CanAttack())
         {
-            moveDirection += Vector3.forward; // 앞으로 이동
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            moveDirection += Vector3.back; // 뒤로 이동
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            moveDirection += Vector3.left; // 왼쪽으로 이동
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            moveDirection += Vector3.right; // 오른쪽으로 이동
-        }
-        if (Input.GetKey(KeyCode.Space))
-        {
-            Jump();
-        }
-        if(Input.GetMouseButton(0))
-        {
+            moveDirection = Vector3.zero; // 이동 방향 초기화
+            RIGIDBODY.velocity = Vector3.zero; // Rigidbody 속도 초기화
             ChangeState(EPlayerState.ATTACK);
-        }
-        if (Input.GetKey(KeyCode.LeftShift) && currentStamina > 0)    //달리면서 이동
-        {
-            currentSpeed = runSpeed;
-            DecreaseStamina();
+            return;
         }
         else
         {
-            usingStamina = false;
-            currentSpeed = walkSpeed;
+            // W, A, S, D 키 입력 처리
+            if (Input.GetKey(KeyCode.W))
+            {
+                moveDirection += Vector3.forward; // 앞으로 이동
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                moveDirection += Vector3.back; // 뒤로 이동
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                moveDirection += Vector3.left; // 왼쪽으로 이동
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                moveDirection += Vector3.right; // 오른쪽으로 이동
+            }
+            if (Input.GetKey(KeyCode.LeftShift) && currentStamina > 0)    //달리면서 이동
+            {
+                currentSpeed = runSpeed;
+                DecreaseStamina();
+            }
+            else
+            {
+                usingStamina = false;
+                currentSpeed = walkSpeed;
+            }
         }
 
         // 카메라의 방향을 가져오기
@@ -80,7 +82,7 @@ public partial class Player
             RIGIDBODY.velocity = velocity; // 새로운 속도 설정
         }
 
-        if (moveDirection == Vector3.zero)
+        if (moveDirection == Vector3.zero && currentState != EPlayerState.ATTACK)
         {
             ChangeState(EPlayerState.IDLE);
         }
@@ -91,7 +93,7 @@ public partial class Player
     {
         if (currentStamina <= maxStamina && !usingStamina)
         {
-            currentStamina += 0.3f;
+            currentStamina += 0.05f;
             Shared.staminaBar.Stamina(currentStamina);
         }
     }
@@ -105,15 +107,16 @@ public partial class Player
             decreaseEndTime = Time.time;
             Shared.staminaBar.Stamina(currentStamina);
         }
+        else
+            Debug.Log("CurrentStamina is not enough!");
     }
 
     private void Jump()
     {
-        //현재 이동하면서 점프가 안됨 수정 필요
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            ChangeState(EPlayerState.JUMP);
-            SetAnimationState("animationState", (int)EPlayerState.JUMP);
+            //ChangeState(EPlayerState.JUMP);
+            //SetAnimationState("animationState", (int)EPlayerState.JUMP);
             RIGIDBODY.velocity = new Vector3(RIGIDBODY.velocity.x, jumpPower, RIGIDBODY.velocity.z);
             isGrounded = false;
         }

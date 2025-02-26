@@ -23,39 +23,40 @@ public partial class Player : Character
 
     protected override void Start()
     {
-        //StartCoroutine(UpdateState());
+        StartCoroutine(UpdateState());
     }
 
-    //protected override IEnumerator UpdateState()
-    //{
-    //    //while (true)
-    //    //{
-    //    //    InputManager();
-
-    //    //    switch (currentState)
-    //    //    {
-    //    //        case EPlayerState.IDLE:
-    //    //            Idle();
-    //    //            break;
-    //    //        case EPlayerState.ATTACK:
-    //    //            Attack();
-    //    //            break;
-    //    //    }
-    //    //    yield return null;
-    //    //}
-
-    //    yield return null;
-    //}
-
-    private void Update()
+    private IEnumerator UpdateState()
     {
-        InputManager();
+        while (true)
+        {
+            InputManager(); // 입력 처리
 
-        if (currentState == EPlayerState.IDLE)
-            Idle();
+            switch (currentState)
+            {
+                case EPlayerState.IDLE:
+                    Idle();
+                    break;
+                case EPlayerState.ATTACK:
+                    Attack();
+                    break;
+                case EPlayerState.DEFEND:
+                    Defend();
+                    break;
+                case EPlayerState.HIT:
+                    // 피격 처리 로직 추가 가능
+                    break;
+                case EPlayerState.DIE:
+                    Die();
+                    break;
+            }
 
-        if (decreaseEndTime <= Time.time - 3f)
-            IncreaseStamina();
+            // 스태미너 증가 처리
+            if (decreaseEndTime <= Time.time - 3f)
+                IncreaseStamina();
+
+            yield return null; // 다음 프레임까지 대기
+        }
     }
 
     void FixedUpdate()
@@ -69,65 +70,42 @@ public partial class Player : Character
     public void ChangeState(EPlayerState _currentstate)
     {
         currentState = _currentstate;
+        //Debug.Log("changeState:" + currentState);
     }
 
     private void InputManager()
     {
-        //키 입력 확인
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))   //이동
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
         {
-            if (currentState != EPlayerState.ATTACK && currentState != EPlayerState.DEFEND) // 공격상태 또는 방어 상태가 아닐 때만 이동 가능
+            if (currentState != EPlayerState.ATTACK && currentState != EPlayerState.DEFEND)
+            {
                 ChangeState(EPlayerState.MOVE);
+            }
         }
-        if (Input.GetMouseButtonDown(0)) //마우스 왼쪽 클릭 시 공격
-        {
-            if (CanAttack() && currentState != EPlayerState.HIT)//쿨타임 체크
-            {
-                ChangeState(EPlayerState.ATTACK);
-                Attack();
-            }
-            else
-            {
-                Debug.Log($"아직 {Time.time - (lastAttackTime + attackCoolDown)}의 쿨타임이 남았습니다!");
-                return;
-            }
 
-        }
-        if (Input.GetMouseButton(1)) //마우스 오른쪽 클릭 시 방어
+        if (Input.GetMouseButtonDown(0) && CanAttack())
         {
-            if (currentState != EPlayerState.HIT && currentState != EPlayerState.DEFENDHIT)
-            {
+            ChangeState(EPlayerState.ATTACK);
+        }
+
+        if (Input.GetMouseButton(1))
+        {
+            if(currentState != EPlayerState.SKILL)
                 ChangeState(EPlayerState.DEFEND);
-                Defend();
-            }
         }
-        else if (Input.GetMouseButtonUp(1)) // 마우스 오른쪽 버튼에서 손을 뗐을 때
+        else if (Input.GetMouseButtonUp(1))
         {
-            ChangeState(EPlayerState.IDLE); // Idle 상태로 변경
+            if (currentState == EPlayerState.DEFEND)
+                ChangeState(EPlayerState.IDLE);
         }
+
         if (Input.GetKey(KeyCode.Space) && isGrounded)
         {
             Jump();
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (!Shared.skillCoolDown.isCooldown[0])
-            {
-                ChangeState(EPlayerState.ATTACK);
-                SetAnimationState("animationState", 10);
-                UseSkill(0);
-            }
-        }
-        else if (Input.GetKeyDown(KeyCode.R))
-        {
-            if (!Shared.skillCoolDown.isCooldown[1])
-            {
-                ChangeState(EPlayerState.ATTACK);
-                SetAnimationState("animationState", 11);
-                UseSkill(1);
-            }
-        }
+        // 스킬 사용 처리
+        HandleSkillInput();
     }
 
     // 적의 공격 감지 시 호출
@@ -153,29 +131,12 @@ public partial class Player : Character
         Destroy(gameObject);
     }
 
-    //public void OnDestroy()
-    //{
-    //    //이 오브젝트가 제거될 시 실행되는 함수임.
-    //    Destroy(gameObject);
-    //}
-
-
-    //public override void OnCollisionEnter(Collision collision)
-    //{
-    //    if (collision.gameObject.CompareTag("Ground"))
-    //    {
-    //        isGrounded = true;
-    //    }
-    //}
     public override void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
-            ChangeState(EPlayerState.IDLE);
         }
-
-        //Debug.Log(collision.gameObject.name);
     }
     public void OnCollisionStay(Collision collision)
     {
