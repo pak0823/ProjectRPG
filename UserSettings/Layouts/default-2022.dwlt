@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 2560
     height: 1349
   m_ShowMode: 4
-  m_Title: Hierarchy
+  m_Title: Game
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 492}
   m_MaxSize: {x: 10000, y: 10000}
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 100}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 214
+  controlID: 212
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -174,7 +174,7 @@ MonoBehaviour:
   - {fileID: 16}
   - {fileID: 17}
   m_Selected: 1
-  m_LastSelected: 2
+  m_LastSelected: 0
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -758,9 +758,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -1.9365695, y: 1.1698117, z: 5.938103}
+    m_Target: {x: -7.606504, y: 0.91554433, z: 2.5366693}
     speed: 2
-    m_Value: {x: -1.9365695, y: 1.1698117, z: 5.938103}
+    m_Value: {x: -7.606504, y: 0.91554433, z: 2.5366693}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -806,13 +806,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.24242121, y: 0.742585, z: -0.346705, w: -0.519227}
+    m_Target: {x: -0.19682153, y: 0.80303293, z: -0.40620735, w: -0.38909802}
     speed: 2
-    m_Value: {x: -0.24242103, y: 0.74258447, z: -0.34670475, w: -0.5192267}
+    m_Value: {x: -0.19682132, y: 0.8030321, z: -0.4062069, w: -0.3890976}
   m_Size:
-    m_Target: 1.3790169
+    m_Target: 2.336595
     speed: 2
-    m_Value: 1.3790169
+    m_Value: 2.336595
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -830,7 +830,7 @@ MonoBehaviour:
     m_FarClip: 10000
     m_DynamicClip: 1
     m_OcclusionCulling: 0
-  m_LastSceneViewRotation: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
+  m_LastSceneViewRotation: {x: -0.24242121, y: 0.742585, z: -0.346705, w: -0.519227}
   m_LastSceneViewOrtho: 0
   m_ReplacementShader: {fileID: 0}
   m_ReplacementString: 
@@ -930,14 +930,14 @@ MonoBehaviour:
       e31: 0
       e32: 0
       e33: 1
-    - e00: 1.0848175
+    - e00: 1
       e01: 0
       e02: 0
-      e03: -0.46697998
+      e03: 52
       e10: 0
-      e11: 1.0848175
+      e11: 1
       e12: 0
-      e13: 42.442596
+      e13: 58
       e20: 0
       e21: 0
       e22: 1
@@ -946,14 +946,14 @@ MonoBehaviour:
       e31: 0
       e32: 0
       e33: 1
-    - e00: 0.5478261
+    - e00: 0.92209494
       e01: 0
       e02: 0
-      e03: -12.391113
+      e03: 90.35327
       e10: 0
-      e11: 0.5478261
+      e11: 0.92209494
       e12: 0
-      e13: 134.174
+      e13: 73.276184
       e20: 0
       e21: 0
       e22: 1
@@ -1062,7 +1062,7 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: -4734
+  m_LastSelectedObjectID: -3904
 --- !u!114 &18
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1100,23 +1100,23 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 18f0ffff1ef0ffff60f0ffff2afbffff
+      m_SelectedIDs: 82edffff
+      m_LastClickedID: -4734
+      m_ExpandedIDs: deecfffffaecfffffeecffff02edffff0aedffff16edffff32edffff36edffff3aedffff42edffff52edffff56edffff5aedffff5eedffffaaedffffdaedffff6cefffff2afbfffff2590000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
+        m_Name: MushroomSmile
+        m_OriginalName: MushroomSmile
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 0
+        m_UserData: -3806
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 11
+        m_OriginalEventType: 0
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 10}
       m_SearchString: 
@@ -1205,7 +1205,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/UI/InGame
+    - Assets/Scripts/Battle
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -1213,16 +1213,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts/UI/InGame
+  - Assets/Scripts/Battle
   m_LastFoldersGridSize: -1
   m_LastProjectPath: "C:\\Users\\ziwoo\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectRPG"
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: a6720000
-    m_LastClickedID: 29350
-    m_ExpandedIDs: 000000003a7200003c7200003e72000040720000427200004472000046720000487200004a72000088720000aa72000000ca9a3b
+    m_SelectedIDs: 98720000
+    m_LastClickedID: 29336
+    m_ExpandedIDs: 000000003a7200003c7200003e72000040720000427200004472000046720000487200004a72000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

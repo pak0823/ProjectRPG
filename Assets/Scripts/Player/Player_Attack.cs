@@ -4,8 +4,7 @@ using UnityEngine;
 
 public partial class Player
 {
-    private bool isParrying = false;
-    private float lastDecreaseTime;
+    
     public override void Attack()
     {
         SetAnimationState("animationState", (int)EPlayerState.ATTACK);
@@ -47,7 +46,6 @@ public partial class Player
         {
             if (currentStamina > 0)
             {
-                Debug.Log("defend");
                 SetAnimationState("animationState", (int)EPlayerState.DEFEND);
 
                 if (Time.time >= decreaseEndTime + 0.05f)//스태미너 감소하는 크기 조절
@@ -59,26 +57,24 @@ public partial class Player
                 {
                     usingStamina = false;
                 }
-
-                if (monsterAttackTime > 0)
-                {
-                    if (Time.time < monsterAttackTime + attackWindowTime) //패링 가능시간 내에 패링을 했는지 확인
-                    {
-                        //패링에 성공했을 시 몬스터에게 똑같은 대미지를 넘겨줌
-                        isParrying = true;
-                        Debug.Log("패링성공");
-                    }
-                    else
-                    {
-                        isParrying = false;
-                    }
-                }
             }
             else
                 ChangeState(EPlayerState.IDLE);
-            
         }
+
+        //if(Input.GetMouseButtonDown(1))
+        //{
+        //    if (monsterAttackTime > 0)
+        //    {
+        //        if (Time.time < monsterAttackTime + parryingTrueTime) //패링 가능시간 내에 패링을 했는지 확인
+        //        {
+        //            //패링에 성공했을 시 몬스터에게 똑같은 대미지를 넘겨줌
+        //            isParrying = true;
+        //            Debug.Log("패링성공");
+        //        }
+        //    }
+        //}
     }
 
-    public bool IsParrying { get { return isParrying; } }
+    
 }

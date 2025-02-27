@@ -3302,7 +3302,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5862692502406730210}
   - component: {fileID: 8402097909658526504}
-  - component: {fileID: 1986666724160114147}
+  - component: {fileID: 3721979960928481229}
   m_Layer: 5
   m_Name: InvenShow
   m_TagString: Untagged
@@ -3343,7 +3343,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8894420803000842073}
   m_CullTransparentMesh: 1
---- !u!114 &1986666724160114147
+--- !u!114 &3721979960928481229
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -87,7 +87,6 @@ public class AiMonster : MonoBehaviour
                 if (CanAttack())
                 {
                     monster.Attack();
-                    
                     lastAttackTime = Time.time;
                 }
             }

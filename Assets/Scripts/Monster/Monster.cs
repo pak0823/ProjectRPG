@@ -63,9 +63,19 @@ public partial class Monster : Character
         if (other.gameObject.CompareTag("Player"))
         {
             target = other.gameObject.GetComponent<Player>();
+            Weapon targetWeapon = other.gameObject.GetComponentInChildren<Weapon>();
             if (target != null)
             {
-                target.TakeDamage(giveDamage);
+                if(targetWeapon != null)
+                {
+                    targetWeapon.OnAttackDetected = Time.time;
+                }
+
+                if (!targetWeapon.IsParrying)
+                    target.TakeDamage(giveDamage);
+                else
+                    Debug.Log("몬스터: 공격에 실패했습니다");
+
             }
         }
     }

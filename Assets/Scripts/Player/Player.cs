@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -13,8 +14,8 @@ public partial class Player : Character
     public float lastAttackTime = 0.0f; // 마지막 공격 시간
     public float invincibilityTime = 1.0f; //피격 후 무적시간
     private float lastHitTime = 0f; // 마지막 피격 시간
-    private float monsterAttackTime; //몬스터의 마지막 공격 시간
-    private float attackWindowTime = 0.3f; //패링 가능한 시간
+
+    
 
     protected override void Awake()
     {
@@ -43,9 +44,9 @@ public partial class Player : Character
                 case EPlayerState.DEFEND:
                     Defend();
                     break;
-                case EPlayerState.HIT:
-                    // 피격 처리 로직 추가 가능
-                    break;
+                //case EPlayerState.HIT:
+                //    // 피격 처리 로직 추가 가능
+                //    break;
                 case EPlayerState.DIE:
                     Die();
                     break;
@@ -73,11 +74,24 @@ public partial class Player : Character
         //Debug.Log("changeState:" + currentState);
     }
 
+    private readonly EPlayerState[] blockedStates =
+    {   //특정 상태를 체크하는 배열
+        EPlayerState.ATTACK,
+        EPlayerState.DEFEND,
+        EPlayerState.SKILL
+    };
+
     private void InputManager()
     {
+        // 마우스 포인터가 보일 경우 입력을 차단
+        if (Cursor.visible)
+        {
+            return; // 입력 처리 중단
+        }
+
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
         {
-            if (currentState != EPlayerState.ATTACK && currentState != EPlayerState.DEFEND)
+            if (!blockedStates.Contains(currentState))
             {
                 ChangeState(EPlayerState.MOVE);
             }
@@ -90,7 +104,7 @@ public partial class Player : Character
 
         if (Input.GetMouseButton(1))
         {
-            if(currentState != EPlayerState.SKILL)
+            if(!blockedStates.Contains(currentState))
                 ChangeState(EPlayerState.DEFEND);
         }
         else if (Input.GetMouseButtonUp(1))
@@ -108,11 +122,7 @@ public partial class Player : Character
         HandleSkillInput();
     }
 
-    // 적의 공격 감지 시 호출
-    public void OnAttackDetected()
-    {
-        monsterAttackTime = Time.time; // 공격이 감지되면 시간 기록
-    }
+    
 
     private bool CanAttack()
     {

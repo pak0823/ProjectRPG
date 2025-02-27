@@ -82,9 +82,10 @@ public partial class Player
             RIGIDBODY.velocity = velocity; // 새로운 속도 설정
         }
 
-        if (moveDirection == Vector3.zero && currentState != EPlayerState.ATTACK)
+        if (moveDirection == Vector3.zero)
         {
-            ChangeState(EPlayerState.IDLE);
+            if(currentState != EPlayerState.ATTACK && currentState != EPlayerState.SKILL)
+                ChangeState(EPlayerState.IDLE);
         }
     }
 
@@ -128,17 +129,10 @@ public partial class Player
         {
             if (currentState == EPlayerState.DEFEND)
             {
-                if (!isParrying)
-                {
-                    ChangeState(EPlayerState.DEFENDHIT);
-                    SetAnimationState("animationState", (int)EPlayerState.DEFENDHIT);
-                    currentHealth -= (_damage * 0.8f);
-                }
-                else
-                {
-                    //패링에 성공했을 경우엔 대미지를 입지 않고 이펙트가 실행되게 추가 예정
-                    return;
-                }
+                ChangeState(EPlayerState.DEFENDHIT);
+                SetAnimationState("animationState", (int)EPlayerState.DEFENDHIT);
+                currentHealth -= (_damage * 0.8f);
+                Debug.Log("방패를 들고 피해입음");
             }
             else
             {

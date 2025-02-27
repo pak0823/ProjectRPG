@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
 {
@@ -9,13 +10,13 @@ public class UiManager : MonoBehaviour
     {
         Shared.uiManager = this;
     }
-    public void ShowInterface(BaseUi uiElement)
+    public void ShowInterface(BaseUi _baseui)
     {
         // 현재 열려 있는 UI가 있다면
         if (uiStack.Count > 0)
         {
             var currentUi = uiStack.Peek(); // 스택의 가장 위에 있는 UI
-            if (currentUi == uiElement)
+            if (currentUi == _baseui)
             {
                 // 이미 열려 있는 UI를 닫기
                 HideInterface();
@@ -25,8 +26,8 @@ public class UiManager : MonoBehaviour
         }
 
         // 새로운 UI를 활성화하고 스택에 추가합니다.
-        uiElement.Show();
-        uiStack.Push(uiElement);
+        _baseui.Show();
+        uiStack.Push(_baseui);
     }
 
     public void HideInterface()

@@ -34,4 +34,11 @@ public class Ui_Ingame : BaseUi
             }
         }
     }
+
+    public void HideInterfaceBtn()
+    {
+        Shared.uiManager.HideInterface();
+    }
+
+
 }
