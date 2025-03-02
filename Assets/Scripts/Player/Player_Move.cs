@@ -129,16 +129,11 @@ public partial class Player
         {
             if (currentState == EPlayerState.DEFEND)
             {
-                ChangeState(EPlayerState.DEFENDHIT);
-                SetAnimationState("animationState", (int)EPlayerState.DEFENDHIT);
-                currentHealth -= (_damage * 0.8f);
-                Debug.Log("방패를 들고 피해입음");
+                DefendHit(_damage);
             }
             else
             {
-                ChangeState(EPlayerState.HIT);
-                SetAnimationState("animationState", (int)EPlayerState.HIT);
-                currentHealth -= _damage;
+                Hit(_damage);
             }
 
             if (currentHealth <= 0)
@@ -154,7 +149,20 @@ public partial class Player
         Debug.Log($"남은 PlayerHP:{currentHealth}");
     }
 
-    public void Die()
+    private void Hit(float _damage)
+    {
+        ChangeState(EPlayerState.HIT);
+        SetAnimationState("animationState", (int)EPlayerState.HIT);
+        currentHealth -= _damage;
+    }
+    private void DefendHit(float _damage)
+    {
+        ChangeState(EPlayerState.DEFENDHIT);
+        SetAnimationState("animationState", (int)EPlayerState.DEFENDHIT);
+        currentHealth -= (_damage * 0.8f);
+        Debug.Log("방패를 들고 피해입음");
+    }
+    private void Die()
     {
         ChangeState(EPlayerState.DIE);
         SetAnimationState("animationState", (int)EPlayerState.DIE);

@@ -1,23 +1,23 @@
 public enum EPlayerState
 {
-    IDLE,
-    MOVE,
-    JUMP,
-    SLIDING,
-    ATTACK,
-    DEFEND,
-    HIT,
-    DIE,
-    DEFENDHIT,
-    RUN,
-    SKILL
+    IDLE,   //0
+    MOVE,   //1
+    JUMP,   //2
+    SLIDING,//3
+    ATTACK, //4
+    DEFEND, //5
+    HIT,    //6
+    DIE,    //7
+    DEFENDHIT,  //8
+    RUN,    //9
+    SKILL   //10
 }
 
 public enum EEnemyState
 {
-    IDLE,
-    MOVE,
-    ATTACK,
-    HIT,
-    DIE
+    IDLE,   //0
+    MOVE,   //1
+    ATTACK, //2
+    HIT,    //3
+    DIE     //4
 }

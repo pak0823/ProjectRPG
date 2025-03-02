@@ -60,7 +60,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.92141455
+      - time: 0.917493
         functionName: ChangeState
         data: 
         objectReferenceParameter: {instanceID: 0}

@@ -4,7 +4,10 @@ using UnityEngine;
 
 public partial class Player
 {
-    
+    private float parryingTrueTime = 10f / 60f; //패링 가능한 시간
+    private bool isParrying = false; // 패링 성공 유무
+    private float monsterAttackTime; //몬스터의 마지막 공격 시간
+
     public override void Attack()
     {
         SetAnimationState("animationState", (int)EPlayerState.ATTACK);
@@ -42,7 +45,9 @@ public partial class Player
 
     private void Defend()
     {
-        if(Input.GetMouseButton(1))
+        Parrying();
+
+        if (Input.GetMouseButton(1))
         {
             if (currentStamina > 0)
             {
@@ -62,19 +67,25 @@ public partial class Player
                 ChangeState(EPlayerState.IDLE);
         }
 
-        //if(Input.GetMouseButtonDown(1))
-        //{
-        //    if (monsterAttackTime > 0)
-        //    {
-        //        if (Time.time < monsterAttackTime + parryingTrueTime) //패링 가능시간 내에 패링을 했는지 확인
-        //        {
-        //            //패링에 성공했을 시 몬스터에게 똑같은 대미지를 넘겨줌
-        //            isParrying = true;
-        //            Debug.Log("패링성공");
-        //        }
-        //    }
-        //}
+        
     }
 
-    
+    private void Parrying()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            Debug.Log("monsterAttackTime: " + monsterAttackTime);
+            Debug.Log("Defend: " + Time.time);
+            if ((Time.time <= monsterAttackTime + parryingTrueTime) && (Time.time >= monsterAttackTime - parryingTrueTime) ) //패링 가능시간 내에 패링을 했는지 확인
+            {
+                //패링에 성공했을 시 몬스터에게 똑같은 대미지를 넘겨줌
+                Debug.Log("패링성공");
+                isParrying = true;
+            }
+        }
+    }
+
+                      
+    public float OnAttackDetected { set { monsterAttackTime = value; } get { return monsterAttackTime; } }// 적의 공격 감지 시 호출
+    public bool IsParrying { set { isParrying = value; } get { return isParrying; } }
 }

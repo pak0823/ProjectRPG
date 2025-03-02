@@ -11,5 +11,22 @@ public partial class Monster
         // 공격 로직 추가
     }
 
+    public void OnAttackDetected()
+    {
+        if (target != null)
+        {
+            target.OnAttackDetected = Time.time;
+            Debug.Log("공격시간 넘겨줌");
+        }
+        else
+        {
+            Debug.Log("target is null!");
+            return;
+        }
+    }
+
+
+
+
     public float monsterAttackTime { set { lastAttackTime = value; } get { return lastAttackTime; } }
 }

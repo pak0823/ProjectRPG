@@ -8,7 +8,6 @@ public partial class Player : Character
 {
     public EPlayerState currentState;
     public bool isGrounded;
-    Monster monster;
 
     public float attackCoolDown = 1.0f; //공격 쿨타임
     public float lastAttackTime = 0.0f; // 마지막 공격 시간
@@ -44,9 +43,6 @@ public partial class Player : Character
                 case EPlayerState.DEFEND:
                     Defend();
                     break;
-                //case EPlayerState.HIT:
-                //    // 피격 처리 로직 추가 가능
-                //    break;
                 case EPlayerState.DIE:
                     Die();
                     break;
@@ -80,6 +76,11 @@ public partial class Player : Character
         EPlayerState.DEFEND,
         EPlayerState.SKILL
     };
+    private readonly EPlayerState[] hitStates =
+    {   //피격 상태를 체크하는 배열
+        EPlayerState.HIT,
+        EPlayerState.DEFENDHIT
+    };
 
     private void InputManager()
     {
@@ -88,6 +89,16 @@ public partial class Player : Character
         {
             return; // 입력 처리 중단
         }
+        else if (hitStates.Contains(currentState))
+        {
+            return;
+        }
+        else if (currentHealth <= 0)
+        {
+            Die();
+            return;
+        }
+
 
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
         {
@@ -122,8 +133,6 @@ public partial class Player : Character
         HandleSkillInput();
     }
 
-    
-
     private bool CanAttack()
     {
         // 쿨타임이 지난 경우에만 true 반환
@@ -139,6 +148,25 @@ public partial class Player : Character
     {
         yield return new WaitForSeconds(_destroytime);
         Destroy(gameObject);
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        AiMonster aiMonster;
+
+        if(other.gameObject.CompareTag("Enemy"))
+        {
+            aiMonster = other.gameObject.GetComponent<AiMonster>();
+
+            if (aiMonster != null)
+            {
+                //필요할 경우 기능 추가
+            }
+            else
+            {
+                Debug.Log("aiMonster is null!");
+            }
+        }
     }
 
     public override void OnCollisionEnter(Collision collision)
