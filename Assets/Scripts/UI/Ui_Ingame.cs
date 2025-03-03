@@ -35,10 +35,14 @@ public class Ui_Ingame : BaseUi
         }
     }
 
+    public void ShowInterfaceBtn(BaseUi _interfaceToShow)
+    {
+        Debug.Log("¹öÆ° Å¬¸¯µÊ");
+
+        Shared.uiManager.ShowInterface(_interfaceToShow);
+    }
     public void HideInterfaceBtn()
     {
         Shared.uiManager.HideInterface();
     }
-
-
 }
