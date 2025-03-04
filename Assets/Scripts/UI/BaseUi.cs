@@ -11,7 +11,6 @@ public class BaseUi : MonoBehaviour
 
     protected virtual void Start()
     {
-        Debug.Log("Base Start");
         Shared.baseUi = this;
     }
 

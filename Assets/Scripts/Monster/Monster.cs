@@ -16,7 +16,8 @@ public partial class Monster : Character
     public AiMonster aiMonster; //AiMonster 클래스의 인스턴스
     public Player target;
 
-    
+
+
 
     protected override void Awake()
     {

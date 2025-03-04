@@ -214,6 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+  textData: {fileID: 11400000, guid: 7b78e326a655a354883eb6f3a36070e7, type: 2}
   attackCooldown: 1
   invincibilityTime: 1
 --- !u!1 &1326775223490303571

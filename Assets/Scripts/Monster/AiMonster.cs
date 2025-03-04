@@ -6,6 +6,7 @@ public class AiMonster : MonoBehaviour
 {
     private Monster monster; // Monster 클래스의 인스턴스
     [SerializeField]private EEnemyState currentState = EEnemyState.IDLE;
+    public DynamicTextData textData;    //대미지 텍스트
 
     // 쿨타임 관련 변수
     public float attackCooldown = 1.0f; // 공격 쿨타임
@@ -99,19 +100,14 @@ public class AiMonster : MonoBehaviour
 
     public void TakeDamage(float _damage)
     {
-        if (CanHit())
-        {
-            ChangeState(EEnemyState.HIT);
-            monster.TakeDamage(_damage);
-            lastHitTime = Time.time; // 마지막 피격 시간 업데이트
+        ChangeState(EEnemyState.HIT);
+        monster.TakeDamage(_damage);
+        lastHitTime = Time.time; // 마지막 피격 시간 업데이트
 
-            if (monster.health <= 0)
-            {
-                ChangeState(EEnemyState.DIE);
-            }
+        if (monster.health <= 0)
+        {
+            ChangeState(EEnemyState.DIE);
         }
-        else
-            return;
     }
 
     protected void Die()

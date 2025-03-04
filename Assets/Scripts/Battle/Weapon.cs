@@ -8,9 +8,7 @@ public class Weapon : MonoBehaviour
     Monster monster;
     AiMonster aiMonster;
     Player player;
-
-    private bool isAttack = false;
-    public float attackDuration = 0.3f; // 공격 지속 시간
+    //[SerializeField] private DynamicTextData critData;
 
 
     private void Awake()
@@ -18,29 +16,21 @@ public class Weapon : MonoBehaviour
         player = GetComponentInParent<Player>();
     }
 
-    private void Update()
-    {
-        if(player.currentState == EPlayerState.ATTACK || player.currentState == EPlayerState.SKILL)
-        {
-            isAttack = true;
-        }
-        else
-            isAttack = false;
-    }
-
     public void OnTriggerEnter(Collider _collider)
     {
         if (_collider.gameObject.CompareTag("Enemy"))
         {
             aiMonster = _collider.gameObject.GetComponent<AiMonster>();
-            
+
 
             if (aiMonster != null && player != null)
             {
-                if(isAttack)
+                if (player.IsAttacking)
                 {
-                    aiMonster.TakeDamage(player.giveDamage);
-                    isAttack = false;
+                    aiMonster.TakeDamage(player.GetGiveDamage);
+                    DamageTextDisplay(aiMonster);
+                    Debug.Log("공격에 성공함");
+                    player.IsAttacking = false;
                 }
             }
             else
@@ -53,6 +43,22 @@ public class Weapon : MonoBehaviour
                 return;
             }
         }
+    }
+
+    //대미지 표시 메서드
+    private void DamageTextDisplay(AiMonster _aimonster)
+    {
+        DynamicTextData data = _aimonster.transform.GetComponent<AiMonster>().textData;
+
+        Vector3 destination = _aimonster.transform.position;
+
+        destination.x += (Random.value - 0.5f);
+        destination.y += (Random.value + 0.7f);
+        destination.z += (Random.value - 0.5f);
+
+        DynamicTextManager.CreateText(destination, player.GetGiveDamage.ToString(), data);
+
+        //DynamicTextManager.CreateText(destination, "CRIT!", critData); 크리티컬 처리
     }
 
 

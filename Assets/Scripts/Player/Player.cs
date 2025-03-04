@@ -6,7 +6,7 @@ using UnityEngine;
 
 public partial class Player : Character
 {
-    public EPlayerState currentState;
+    private EPlayerState currentState;
     public bool isGrounded;
 
     public float attackCoolDown = 1.0f; //공격 쿨타임
@@ -14,7 +14,6 @@ public partial class Player : Character
     public float invincibilityTime = 1.0f; //피격 후 무적시간
     private float lastHitTime = 0f; // 마지막 피격 시간
 
-    
 
     protected override void Awake()
     {
@@ -133,7 +132,7 @@ public partial class Player : Character
         HandleSkillInput();
     }
 
-    private bool CanAttack()
+    public bool CanAttack()
     {
         // 쿨타임이 지난 경우에만 true 반환
         return Time.time >= lastAttackTime + attackCoolDown;
@@ -144,6 +143,7 @@ public partial class Player : Character
         return Time.time >= lastHitTime + invincibilityTime;
     }
 
+    public EPlayerState CurrentState { get { return currentState; } } 
     protected override IEnumerator DestroyObject(float _destroytime)
     {
         yield return new WaitForSeconds(_destroytime);

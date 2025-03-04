@@ -7,9 +7,11 @@ public partial class Player
     private float parryingTrueTime = 10f / 60f; //패링 가능한 시간
     private bool isParrying = false; // 패링 성공 유무
     private float monsterAttackTime; //몬스터의 마지막 공격 시간
+    private bool isAttacking = false; // 공격 상태 변수
 
     public override void Attack()
     {
+        isAttacking = true;
         SetAnimationState("animationState", (int)EPlayerState.ATTACK);
         lastAttackTime = Time.time;
     }
@@ -18,6 +20,7 @@ public partial class Player
     {
         // 스킬 사용 로직
         Shared.skillCoolDown.StartCooldown(skillIndex);
+        isAttacking = true;
     }
 
     private void HandleSkillInput()
@@ -74,8 +77,6 @@ public partial class Player
     {
         if (Input.GetMouseButtonDown(1))
         {
-            Debug.Log("monsterAttackTime: " + monsterAttackTime);
-            Debug.Log("Defend: " + Time.time);
             if ((Time.time <= monsterAttackTime + parryingTrueTime) && (Time.time >= monsterAttackTime - parryingTrueTime) ) //패링 가능시간 내에 패링을 했는지 확인
             {
                 //패링에 성공했을 시 몬스터에게 똑같은 대미지를 넘겨줌
@@ -88,4 +89,5 @@ public partial class Player
                       
     public float OnAttackDetected { set { monsterAttackTime = value; } get { return monsterAttackTime; } }// 적의 공격 감지 시 호출
     public bool IsParrying { set { isParrying = value; } get { return isParrying; } }
+    public bool IsAttacking { set { isAttacking = value; } get { return isAttacking; } }
 }

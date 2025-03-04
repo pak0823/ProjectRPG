@@ -13,7 +13,7 @@ public partial class Player
     public float walkSpeed = 4.0f;    //걷기 속도
     public float runSpeed = 8.0f;  //뛰기 속도
     public float currentSpeed = 0f; //현재 속도
-    public float giveDamage = 10f; //현재 공격력
+    private float giveDamage = 10f; //현재 공격력
     public Vector3 moveDirection;  //현재 방향
 
 
@@ -21,5 +21,7 @@ public partial class Player
     public float GetMaxStamina{ /*set { maxStamina = value; }*/ get { return maxStamina; } }
     public float GetCurrentHp{ /*set { currentHealth = value; }*/ get { return currentHealth; } }
     public float GetCurrentStamina{ /*set { currentStamina = value; }*/ get { return currentStamina; } }
+
+    public float GetGiveDamage { /*set { maxHealth = value; }*/ get { return giveDamage; } }
 }
 

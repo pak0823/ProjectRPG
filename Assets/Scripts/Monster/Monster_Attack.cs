@@ -16,7 +16,6 @@ public partial class Monster
         if (target != null)
         {
             target.OnAttackDetected = Time.time;
-            Debug.Log("공격시간 넘겨줌");
         }
         else
         {

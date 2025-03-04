@@ -13,6 +13,7 @@ public partial class Player
     {
         SetAnimationState("animationState", (int)EPlayerState.IDLE);
         SetAnimationMove("moveSpeed", 0);
+        isAttacking = false;
     }
 
     public override void Move()
@@ -146,7 +147,7 @@ public partial class Player
         else
             return;
 
-        Debug.Log($"남은 PlayerHP:{currentHealth}");
+        //Debug.Log($"남은 PlayerHP:{currentHealth}");
     }
 
     private void Hit(float _damage)
@@ -160,7 +161,6 @@ public partial class Player
         ChangeState(EPlayerState.DEFENDHIT);
         SetAnimationState("animationState", (int)EPlayerState.DEFENDHIT);
         currentHealth -= (_damage * 0.8f);
-        Debug.Log("방패를 들고 피해입음");
     }
     private void Die()
     {
