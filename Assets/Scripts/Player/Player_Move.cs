@@ -168,4 +168,10 @@ public partial class Player
         SetAnimationState("animationState", (int)EPlayerState.DIE);
         //Die애니메이션에 DestroyObject() 이벤트 추가
     }
+
+    private bool CanHit()
+    {
+        // 무적 상태가 아닐 경우 true 반환
+        return Time.time >= lastHitTime + invincibilityTime;
+    }
 }

@@ -10,7 +10,7 @@ public class Weapon : MonoBehaviour
     Player player;
     //[SerializeField] private DynamicTextData critData;
 
-
+    private bool hasAttacked = false; // 공격 여부를 추적하는 변수
     private void Awake()
     {
         player = GetComponentInParent<Player>();
@@ -21,16 +21,24 @@ public class Weapon : MonoBehaviour
         if (_collider.gameObject.CompareTag("Enemy"))
         {
             aiMonster = _collider.gameObject.GetComponent<AiMonster>();
-
+            
 
             if (aiMonster != null && player != null)
             {
-                if (player.IsAttacking)
+                if (player.IsAttacking && !hasAttacked)
                 {
+                    hasAttacked = true; // 공격 상태를 true로 설정
+                    player.IsAttacking = false;
                     aiMonster.TakeDamage(player.GetGiveDamage);
                     DamageTextDisplay(aiMonster);
                     Debug.Log("공격에 성공함");
-                    player.IsAttacking = false;
+                    return;
+                }
+                else if(player.IsSkill)
+                {
+                    //여러번 대미지 주는 것을 허용하기에 IsSkill = false을 여기서 처리하지 않음
+                    aiMonster.TakeDamage(player.GetGiveDamage);
+                    DamageTextDisplay(aiMonster);
                 }
             }
             else
@@ -39,9 +47,15 @@ public class Weapon : MonoBehaviour
                     Debug.Log("aiMonster is null!");
                 if (player == null)
                     Debug.Log("player is null!");
-
-                return;
             }
+        }
+    }
+
+    private void OnTriggerExit(Collider _collider)
+    {
+        if (_collider.gameObject.CompareTag("Enemy"))
+        {
+            hasAttacked = false; // 충돌이 끝나면 공격 상태 리셋
         }
     }
 
@@ -59,14 +73,5 @@ public class Weapon : MonoBehaviour
         DynamicTextManager.CreateText(destination, player.GetGiveDamage.ToString(), data);
 
         //DynamicTextManager.CreateText(destination, "CRIT!", critData); 크리티컬 처리
-    }
-
-
-    protected void OnTriggerExit(Collider _collider)
-    {
-        //if (_collider.gameObject.CompareTag("Enemy"))
-        //{
-        //    isAttack = false;
-        //}
     }
 }

@@ -8,6 +8,7 @@ public partial class Player
     private bool isParrying = false; // 패링 성공 유무
     private float monsterAttackTime; //몬스터의 마지막 공격 시간
     private bool isAttacking = false; // 공격 상태 변수
+    private bool isSkill = false; // 스킬 상태 변수
 
     public override void Attack()
     {
@@ -15,12 +16,22 @@ public partial class Player
         SetAnimationState("animationState", (int)EPlayerState.ATTACK);
         lastAttackTime = Time.time;
     }
+    public void EndAttack()
+    {
+        isAttacking = false;
+        Debug.Log("공격 종료");
+    }
 
-    public void UseSkill(int skillIndex)
+    public void StartSkill(int skillIndex)
     {
         // 스킬 사용 로직
         Shared.skillCoolDown.StartCooldown(skillIndex);
-        isAttacking = true;
+        isSkill = true;
+    }
+    public void EndSkill()
+    {
+        IsSkill = false; // 스킬 종료
+        Debug.Log("스킬 종료");
     }
 
     private void HandleSkillInput()
@@ -33,13 +44,13 @@ public partial class Player
                 {
                     ChangeState(EPlayerState.SKILL);
                     SetAnimationState("animationState", 10);
-                    UseSkill(0);
+                    StartSkill(0);
                 }
                 else if (Input.GetKeyDown(KeyCode.R) && !Shared.skillCoolDown.isCooldown[1])
                 {
                     ChangeState(EPlayerState.SKILL);
                     SetAnimationState("animationState", 11);
-                    UseSkill(1);
+                    StartSkill(1);
                 }
             } 
         }
@@ -86,8 +97,14 @@ public partial class Player
         }
     }
 
-                      
+    public bool CanAttack()
+    {
+        // 쿨타임이 지난 경우에만 true 반환
+        return Time.time >= lastAttackTime + attackCoolDown;
+    }
+
     public float OnAttackDetected { set { monsterAttackTime = value; } get { return monsterAttackTime; } }// 적의 공격 감지 시 호출
     public bool IsParrying { set { isParrying = value; } get { return isParrying; } }
     public bool IsAttacking { set { isAttacking = value; } get { return isAttacking; } }
+    public bool IsSkill { set { isSkill = value; } get { return isSkill; } }
 }

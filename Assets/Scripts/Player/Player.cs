@@ -132,16 +132,8 @@ public partial class Player : Character
         HandleSkillInput();
     }
 
-    public bool CanAttack()
-    {
-        // 쿨타임이 지난 경우에만 true 반환
-        return Time.time >= lastAttackTime + attackCoolDown;
-    }
-    private bool CanHit()
-    {
-        // 무적 상태가 아닐 경우 true 반환
-        return Time.time >= lastHitTime + invincibilityTime;
-    }
+    
+    
 
     public EPlayerState CurrentState { get { return currentState; } } 
     protected override IEnumerator DestroyObject(float _destroytime)
