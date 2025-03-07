@@ -6,6 +6,7 @@ public abstract partial class Character : MonoBehaviour
     public SpriteRenderer SPRITERENDERER;
     public Rigidbody RIGIDBODY;
     public CapsuleCollider CAPSULECOLLIDER;
+    public BoxCollider BoxCOLLIDER;
 
     protected virtual void Awake()
     {
@@ -13,6 +14,7 @@ public abstract partial class Character : MonoBehaviour
         ANIMATOR = GetComponent<Animator>();
         RIGIDBODY = GetComponent<Rigidbody>();
         CAPSULECOLLIDER = GetComponent<CapsuleCollider>();
+        BoxCOLLIDER = GetComponent<BoxCollider>();
     }
 
     protected virtual void Start() { }

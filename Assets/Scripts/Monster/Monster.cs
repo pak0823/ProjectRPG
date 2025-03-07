@@ -54,7 +54,10 @@ public partial class Monster : Character
 
     protected override IEnumerator DestroyObject(float _destroytime)
     {
-        CAPSULECOLLIDER.enabled = false;
+        if(CAPSULECOLLIDER != null)
+            CAPSULECOLLIDER.enabled = false;
+        else if(BoxCOLLIDER != null)
+            BoxCOLLIDER.enabled = false;
         yield return new WaitForSeconds(_destroytime);
         Destroy(gameObject);
     }
