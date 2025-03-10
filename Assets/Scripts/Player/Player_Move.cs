@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public partial class Player
@@ -173,5 +174,12 @@ public partial class Player
     {
         // 무적 상태가 아닐 경우 true 반환
         return Time.time >= lastHitTime + invincibilityTime;
+    }
+
+    public void PlayMoveSound()
+    {
+        SoundManager.Instance.sfxSource.volume = 0.1f; // 볼륨 설정 (0.0 - 1.0)
+
+        SoundManager.Instance.PlayPlayerSfx("MoveSource", "Forest_ground_step0");
     }
 }
