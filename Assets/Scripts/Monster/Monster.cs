@@ -5,7 +5,7 @@ public partial class Monster : Character
 {
     public float health = 100f; // 몬스터의 체력
     public float moveSpeed = 15f; // 몬스터의 이동 속도
-    public float detectionRange = 7f; // 탐지 범위
+    public float detectionRange = 6f; //접근 탐지 범위
     public float attackRange = 1.4f;   //공격 가능 거리
     public float giveDamage = 5f; //현재 공격력
     public LayerMask targetLayer; // 타겟이 위치한 레이어

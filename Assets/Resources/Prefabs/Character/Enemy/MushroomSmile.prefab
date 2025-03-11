@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 2045550924386255076}
   - component: {fileID: 2842014632187403614}
   - component: {fileID: 1356142669533613787}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MushroomSmile
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -256,6 +256,7 @@ MonoBehaviour:
   textData: {fileID: 11400000, guid: 7b78e326a655a354883eb6f3a36070e7, type: 2}
   attackCooldown: 1
   invincibilityTime: 1
+  viewAngle: 90
 --- !u!114 &1356142669533613787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,6 +272,7 @@ MonoBehaviour:
   SPRITERENDERER: {fileID: 0}
   RIGIDBODY: {fileID: 0}
   CAPSULECOLLIDER: {fileID: 0}
+  BoxCOLLIDER: {fileID: 0}
   ANIMATOR: {fileID: 0}
   health: 100
   moveSpeed: 2
@@ -742,7 +744,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3155623084142092300}
   - component: {fileID: 3686387701146274286}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: mushroom_head
   m_TagString: Untagged
   m_Icon: {fileID: 0}

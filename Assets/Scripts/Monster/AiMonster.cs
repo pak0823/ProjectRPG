@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 //상태 기반 행동 조합 방식을 적용
@@ -13,6 +14,10 @@ public class AiMonster : MonoBehaviour
     private float lastAttackTime = 0f; // 마지막 공격 시간
     public float invincibilityTime = 1.0f; //피격 후 무적시간
     private float lastHitTime = 0f; // 마지막 피격 시간
+
+    // 시야 관련 변수
+    public float viewAngle = 90f; // 몬스터의 시야 각도
+    public float viewRange = 9.0f; //몬스터의 시야 범위
 
     protected virtual void Awake()
     {
@@ -128,21 +133,131 @@ public class AiMonster : MonoBehaviour
 
     protected void SearchTarget()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, monster.detectionRange, monster.targetLayer);
+        Collider[] hitColliderDetectionRange = Physics.OverlapSphere(transform.position, monster.detectionRange, monster.targetLayer);//접근 허용 범위
+        Collider[] hitColliderViewRange = Physics.OverlapSphere(transform.position, viewRange, monster.targetLayer);//시야 허용 범위
 
-        if (hitColliders.Length > 0)
+        //foreach (var hitCollider in hitColliderDetectionRange)
+        //{
+        //    Player target = hitCollider.GetComponent<Player>();
+        //    if (target != null)
+        //    {
+        //        bool isInView = IsInView(target.transform);
+        //        bool isInRange = Vector3.Distance(transform.position, target.transform.position) <= monster.detectionRange;
+
+        //        // IsInView 호출 전에 target의 transform이 null인지 확인
+        //        if (isInView)
+        //        {
+        //            monster.SetTarget(target.transform, target);
+        //            if (currentState == EEnemyState.IDLE || currentState == EEnemyState.MOVE)
+        //            {
+        //                ChangeState(EEnemyState.MOVE); // 추적 시작
+        //            }
+        //            return; // 타겟을 찾으면 종료
+        //        }
+        //    }
+        //}
+
+        foreach (var hitCollider in hitColliderViewRange)
         {
-            Transform targetPosition = hitColliders[0].transform; // 첫 번째 타겟을 설정
-            Player target = targetPosition.GetComponent<Player>();
-            monster.SetTarget(targetPosition, target);
+            Player target = hitCollider.GetComponent<Player>();
 
-            if(currentState == EEnemyState.IDLE)
-                ChangeState(EEnemyState.MOVE);
+            if (target != null)
+            {
+                if (IsInView(target.transform)) //타겟이 시야범위에 들어왔을 시 추적
+                {
+                    monster.SetTarget(target.transform, target);
+                    if (currentState == EEnemyState.IDLE || currentState == EEnemyState.MOVE)
+                    {
+                        ChangeState(EEnemyState.MOVE); // 추적 시작
+                    }
+                    return; // 타겟을 찾으면 종료
+                }
+
+                foreach (var hitColliders in hitColliderDetectionRange)
+                {
+                    if (hitColliders != null)   //타겟이 접근 허용범위에 초과했을 경우 시야와 상관없이 추적
+                    {
+                        Debug.Log(hitColliders.name);
+                        monster.SetTarget(target.transform, target);
+                        if (currentState == EEnemyState.IDLE || currentState == EEnemyState.MOVE)
+                        {
+                            ChangeState(EEnemyState.MOVE); // 추적 시작
+                        }
+                    }
+                    return; // 타겟을 찾으면 종료
+                }
+            }
         }
-        else
+
+        // 타겟이 범위 밖으로 나가면 IDLE 상태로 변경
+        if (hitColliderViewRange.Length <= 0)
         {
-            monster.SetTarget(null,null); // 타겟을 null로 설정
+            monster.SetTarget(null, null); // 타겟을 null로 설정
             ChangeState(EEnemyState.IDLE);
+            Debug.Log("타겟이 범위 밖으로 나감");
         }
+    }
+
+    private bool IsInView(Transform target)
+    {
+        Vector3 directionToTarget = (target.position - transform.position).normalized;
+        float angle = Vector3.Angle(transform.forward, directionToTarget);
+
+
+        if (angle < viewAngle / 2 && Vector3.Distance(transform.position, target.position) <= viewRange)
+        {
+            int layerMask = ~LayerMask.GetMask("Default"); // "Default" 레이어를 제외
+
+            RaycastHit hit; // RaycastHit 구조체 선언
+
+            // 장애물 체크
+            if (!Physics.Linecast(transform.position, target.position, out hit, layerMask))
+            {
+                Debug.Log("타겟이 시야범위 안으로 들어옴");
+                return true;
+            }
+            else
+            {
+                Debug.Log("타겟과 몬스터 사이에 장애물이 있습니다: " + hit.collider.gameObject.name);
+            }
+        }
+        else 
+        {
+                Debug.Log("타겟이 시야범위 밖으로 나감");
+        }
+
+        return false;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (monster == null)
+        {
+            monster = GetComponent<Monster>();
+            if (monster == null)
+            {
+                Debug.LogWarning("Monster 컴포넌트가 없습니다.");
+                return; // Monster가 없으면 메서드 종료
+            }
+        }
+
+        // 몬스터의 시야 범위를 시각적으로 표시
+        Gizmos.color = Color.yellow; // 색상 설정
+        Vector3 forward = transform.forward * viewRange;
+
+        // 시야 범위 원
+        Gizmos.DrawWireSphere(transform.position, viewRange);
+
+        // 시야 각도 표시
+        Gizmos.DrawLine(transform.position, transform.position + Quaternion.Euler(0, viewAngle / 2, 0) * forward);
+        Gizmos.DrawLine(transform.position, transform.position + Quaternion.Euler(0, -viewAngle / 2, 0) * forward);
+
+        // 시야 방향 표시
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(transform.position, transform.position + forward);
+
+        // 일정 범위 접근 표시
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, monster.detectionRange);
     }
 }
