@@ -76,8 +76,8 @@ GameObject:
   - component: {fileID: 5876949206263575393}
   - component: {fileID: 4322920772775217083}
   - component: {fileID: 7482531628981430919}
-  - component: {fileID: 6502128995508979619}
   - component: {fileID: 7561073477857089119}
+  - component: {fileID: 6502128995508979619}
   m_Layer: 0
   m_Name: MushroomAngry
   m_TagString: Enemy
@@ -173,34 +173,6 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &6502128995508979619
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 875073071404757921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f351f22654c59c4ba364090acfc683e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SPRITERENDERER: {fileID: 0}
-  RIGIDBODY: {fileID: 0}
-  CAPSULECOLLIDER: {fileID: 0}
-  ANIMATOR: {fileID: 0}
-  health: 100
-  moveSpeed: 15
-  detectionRange: 7
-  attackRange: 1.4
-  giveDamage: 5
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  targetPosition: {fileID: 0}
-  aiMonster: {fileID: 0}
-  target: {fileID: 0}
-  distanceToTarget: 0
 --- !u!114 &7561073477857089119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,6 +189,37 @@ MonoBehaviour:
   textData: {fileID: 11400000, guid: 7b78e326a655a354883eb6f3a36070e7, type: 2}
   attackCooldown: 1
   invincibilityTime: 1
+  viewAngle: 90
+  viewRange: 9
+--- !u!114 &6502128995508979619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 875073071404757921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f351f22654c59c4ba364090acfc683e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SPRITERENDERER: {fileID: 0}
+  RIGIDBODY: {fileID: 0}
+  CAPSULECOLLIDER: {fileID: 0}
+  BoxCOLLIDER: {fileID: 0}
+  ANIMATOR: {fileID: 0}
+  health: 100
+  moveSpeed: 15
+  detectionRange: 7
+  attackRange: 1.4
+  giveDamage: 5
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  targetPosition: {fileID: 0}
+  aiMonster: {fileID: 0}
+  target: {fileID: 0}
+  distanceToTarget: 0
 --- !u!1 &1326775223490303571
 GameObject:
   m_ObjectHideFlags: 0

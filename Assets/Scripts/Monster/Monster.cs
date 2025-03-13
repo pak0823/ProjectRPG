@@ -16,6 +16,10 @@ public partial class Monster : Character
     public AiMonster aiMonster; //AiMonster 클래스의 인스턴스
     public Player target;
 
+    // 시야 관련 변수
+    public float viewAngle = 90f; // 몬스터의 시야 각도
+    public float viewRange = 9.0f; //몬스터의 시야 범위
+
 
 
 
@@ -41,6 +45,7 @@ public partial class Monster : Character
     {
         health -= _damage;
         SetAnimationState("animationState", (int)EEnemyState.HIT);
+        PlayHitSound("Enemy_Hit");
 
         //Debug.Log($"남은 MonsterHP:{health}");
     }
@@ -60,6 +65,19 @@ public partial class Monster : Character
             BoxCOLLIDER.enabled = false;
         yield return new WaitForSeconds(_destroytime);
         Destroy(gameObject);
+    }
+
+    public void PlayMoveSound(string _soundname)
+    {
+        SoundManager.Instance.PlayEnemySfx("MoveSource", _soundname);
+    }
+    public void PlayAttackSound(string _soundname)
+    {
+        SoundManager.Instance.PlayEnemySfx("AttackSource", _soundname);
+    }
+    public void PlayHitSound(string _soundname)
+    {
+        SoundManager.Instance.PlayEnemySfx("HitSource", _soundname);
     }
 
     public void OnTriggerEnter(Collider other)

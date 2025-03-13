@@ -1561,7 +1561,7 @@ GameObject:
   - component: {fileID: 2838799054165806404}
   - component: {fileID: 4120365036413302306}
   - component: {fileID: 7929160646138507081}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Beholder
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -1670,8 +1670,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   textData: {fileID: 11400000, guid: 7b78e326a655a354883eb6f3a36070e7, type: 2}
-  attackCooldown: 1
-  invincibilityTime: 1
 --- !u!114 &7929160646138507081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1700,6 +1698,8 @@ MonoBehaviour:
   targetPosition: {fileID: 0}
   aiMonster: {fileID: 0}
   target: {fileID: 0}
+  viewAngle: 90
+  viewRange: 9
   distanceToTarget: 0
 --- !u!1 &4530003306004163420
 GameObject:

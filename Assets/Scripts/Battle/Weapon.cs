@@ -8,9 +8,8 @@ public class Weapon : MonoBehaviour
     Monster monster;
     AiMonster aiMonster;
     Player player;
-    //[SerializeField] private DynamicTextData critData;
 
-    private bool hasAttacked = false; // 공격 여부를 추적하는 변수
+    //[SerializeField] private DynamicTextData critData;
     private void Awake()
     {
         player = GetComponentInParent<Player>();
@@ -22,16 +21,13 @@ public class Weapon : MonoBehaviour
         {
             aiMonster = _collider.gameObject.GetComponent<AiMonster>();
             
-
             if (aiMonster != null && player != null)
             {
-                if (player.IsAttacking && !hasAttacked)
+                if (player.IsAttacking && aiMonster.CanHit())
                 {
-                    hasAttacked = true; // 공격 상태를 true로 설정
                     player.IsAttacking = false;
                     aiMonster.TakeDamage(player.GetGiveDamage);
                     DamageTextDisplay(aiMonster);
-                    Debug.Log("공격에 성공함");
                     return;
                 }
                 else if(player.IsSkill)
@@ -51,13 +47,13 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider _collider)
-    {
-        if (_collider.gameObject.CompareTag("Enemy"))
-        {
-            hasAttacked = false; // 충돌이 끝나면 공격 상태 리셋
-        }
-    }
+    //private void OnTriggerExit(Collider _collider)
+    //{
+    //    if (_collider.gameObject.CompareTag("Enemy"))
+    //    {
+    //        //hasAttacked = false; // 충돌이 끝나면 공격 상태 리셋
+    //    }
+    //}
 
     //대미지 표시 메서드
     private void DamageTextDisplay(AiMonster _aimonster)

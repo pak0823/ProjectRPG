@@ -19,7 +19,6 @@ public partial class Player
     public void EndAttack()
     {
         isAttacking = false;
-        Debug.Log("공격 종료");
     }
 
     public void StartSkill(int skillIndex)

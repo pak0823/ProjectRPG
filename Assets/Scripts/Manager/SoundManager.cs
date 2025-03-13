@@ -51,6 +51,8 @@ public class SoundManager : MonoBehaviour
     // 사운드 클립을 로드하고 재생하는 메서드
     public void PlaySFX(string category, string subCategory, string clipName)
     {
+        sfxSource.volume = 0.5f; // 볼륨 설정 (0.0 - 1.0) - 임시로 설정해둠
+
         string path = $"Sounds/{category}/{subCategory}/{clipName}"; // 경로 생성
         AudioClip clip = Resources.Load<AudioClip>(path); // Resources 폴더에서 클립 로드
         if (clip != null)

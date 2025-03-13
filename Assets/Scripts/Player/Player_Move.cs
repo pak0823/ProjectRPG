@@ -129,6 +129,7 @@ public partial class Player
     {
         if (CanHit())
         {
+            lastHitTime = Time.time;
             if (currentState == EPlayerState.DEFEND)
             {
                 DefendHit(_damage);
@@ -156,11 +157,13 @@ public partial class Player
         ChangeState(EPlayerState.HIT);
         SetAnimationState("animationState", (int)EPlayerState.HIT);
         currentHealth -= _damage;
+        PlayHitSound("Player_Hit");
     }
     private void DefendHit(float _damage)
     {
         ChangeState(EPlayerState.DEFENDHIT);
         SetAnimationState("animationState", (int)EPlayerState.DEFENDHIT);
+        PlayHitSound("Player_DefendHit");
         currentHealth -= (_damage * 0.8f);
     }
     private void Die()
@@ -176,10 +179,5 @@ public partial class Player
         return Time.time >= lastHitTime + invincibilityTime;
     }
 
-    public void PlayMoveSound()
-    {
-        SoundManager.Instance.sfxSource.volume = 0.1f; // º¼·ý ¼³Á¤ (0.0 - 1.0)
-
-        SoundManager.Instance.PlayPlayerSfx("MoveSource", "Forest_ground_step0");
-    }
+    
 }

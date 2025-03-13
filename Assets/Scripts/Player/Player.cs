@@ -98,6 +98,9 @@ public partial class Player : Character
             return;
         }
 
+        if (currentState == EPlayerState.HIT)
+            return;
+
 
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
         {
@@ -132,8 +135,21 @@ public partial class Player : Character
         HandleSkillInput();
     }
 
-    
-    
+    public void PlayMoveSound(string _soundname)
+    {
+        SoundManager.Instance.PlayPlayerSfx("MoveSource", _soundname);
+    }
+
+    public void PlayAttackSound(string _soundname)
+    {
+        SoundManager.Instance.PlayPlayerSfx("AttackSource", _soundname);
+    }
+    public void PlayHitSound(string _soundname)
+    {
+        SoundManager.Instance.PlayPlayerSfx("HitSource", _soundname);
+    }
+
+
 
     public EPlayerState CurrentState { get { return currentState; } } 
     protected override IEnumerator DestroyObject(float _destroytime)

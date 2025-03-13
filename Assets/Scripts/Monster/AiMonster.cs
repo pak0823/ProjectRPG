@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 //상태 기반 행동 조합 방식을 적용
@@ -10,14 +9,12 @@ public class AiMonster : MonoBehaviour
     public DynamicTextData textData;    //대미지 텍스트
 
     // 쿨타임 관련 변수
-    public float attackCooldown = 1.0f; // 공격 쿨타임
+    private float attackCooldown = 1.5f; // 공격 쿨타임
     private float lastAttackTime = 0f; // 마지막 공격 시간
-    public float invincibilityTime = 1.0f; //피격 후 무적시간
+    private float invincibilityTime = 0.5f; //피격 후 무적시간
     private float lastHitTime = 0f; // 마지막 피격 시간
 
-    // 시야 관련 변수
-    public float viewAngle = 90f; // 몬스터의 시야 각도
-    public float viewRange = 9.0f; //몬스터의 시야 범위
+    
 
     protected virtual void Awake()
     {
@@ -125,7 +122,7 @@ public class AiMonster : MonoBehaviour
         // 쿨타임이 지난 경우에만 true 반환
         return Time.time >= lastAttackTime + attackCooldown;
     }
-    private bool CanHit()
+    public bool CanHit()
     {
         // 무적 상태가 아닐 경우 true 반환
         return Time.time >= lastHitTime + invincibilityTime;
@@ -134,28 +131,7 @@ public class AiMonster : MonoBehaviour
     protected void SearchTarget()
     {
         Collider[] hitColliderDetectionRange = Physics.OverlapSphere(transform.position, monster.detectionRange, monster.targetLayer);//접근 허용 범위
-        Collider[] hitColliderViewRange = Physics.OverlapSphere(transform.position, viewRange, monster.targetLayer);//시야 허용 범위
-
-        //foreach (var hitCollider in hitColliderDetectionRange)
-        //{
-        //    Player target = hitCollider.GetComponent<Player>();
-        //    if (target != null)
-        //    {
-        //        bool isInView = IsInView(target.transform);
-        //        bool isInRange = Vector3.Distance(transform.position, target.transform.position) <= monster.detectionRange;
-
-        //        // IsInView 호출 전에 target의 transform이 null인지 확인
-        //        if (isInView)
-        //        {
-        //            monster.SetTarget(target.transform, target);
-        //            if (currentState == EEnemyState.IDLE || currentState == EEnemyState.MOVE)
-        //            {
-        //                ChangeState(EEnemyState.MOVE); // 추적 시작
-        //            }
-        //            return; // 타겟을 찾으면 종료
-        //        }
-        //    }
-        //}
+        Collider[] hitColliderViewRange = Physics.OverlapSphere(transform.position, monster.viewRange, monster.targetLayer);//시야 허용 범위
 
         foreach (var hitCollider in hitColliderViewRange)
         {
@@ -177,7 +153,7 @@ public class AiMonster : MonoBehaviour
                 {
                     if (hitColliders != null)   //타겟이 접근 허용범위에 초과했을 경우 시야와 상관없이 추적
                     {
-                        Debug.Log(hitColliders.name);
+                        //Debug.Log(hitColliders.name);
                         monster.SetTarget(target.transform, target);
                         if (currentState == EEnemyState.IDLE || currentState == EEnemyState.MOVE)
                         {
@@ -194,7 +170,7 @@ public class AiMonster : MonoBehaviour
         {
             monster.SetTarget(null, null); // 타겟을 null로 설정
             ChangeState(EEnemyState.IDLE);
-            Debug.Log("타겟이 범위 밖으로 나감");
+            //Debug.Log("타겟이 범위 밖으로 나감");
         }
     }
 
@@ -204,7 +180,7 @@ public class AiMonster : MonoBehaviour
         float angle = Vector3.Angle(transform.forward, directionToTarget);
 
 
-        if (angle < viewAngle / 2 && Vector3.Distance(transform.position, target.position) <= viewRange)
+        if (angle < monster.viewAngle / 2 && Vector3.Distance(transform.position, target.position) <= monster.viewRange)
         {
             int layerMask = ~LayerMask.GetMask("Default"); // "Default" 레이어를 제외
 
@@ -213,17 +189,17 @@ public class AiMonster : MonoBehaviour
             // 장애물 체크
             if (!Physics.Linecast(transform.position, target.position, out hit, layerMask))
             {
-                Debug.Log("타겟이 시야범위 안으로 들어옴");
+                //Debug.Log("타겟이 시야범위 안으로 들어옴");
                 return true;
             }
             else
             {
-                Debug.Log("타겟과 몬스터 사이에 장애물이 있습니다: " + hit.collider.gameObject.name);
+                //Debug.Log("타겟과 몬스터 사이에 장애물이 있습니다: " + hit.collider.gameObject.name);
             }
         }
         else 
         {
-                Debug.Log("타겟이 시야범위 밖으로 나감");
+                //Debug.Log("타겟이 시야범위 밖으로 나감");
         }
 
         return false;
@@ -243,14 +219,14 @@ public class AiMonster : MonoBehaviour
 
         // 몬스터의 시야 범위를 시각적으로 표시
         Gizmos.color = Color.yellow; // 색상 설정
-        Vector3 forward = transform.forward * viewRange;
+        Vector3 forward = transform.forward * monster.viewRange;
 
         // 시야 범위 원
-        Gizmos.DrawWireSphere(transform.position, viewRange);
+        Gizmos.DrawWireSphere(transform.position, monster.viewRange);
 
         // 시야 각도 표시
-        Gizmos.DrawLine(transform.position, transform.position + Quaternion.Euler(0, viewAngle / 2, 0) * forward);
-        Gizmos.DrawLine(transform.position, transform.position + Quaternion.Euler(0, -viewAngle / 2, 0) * forward);
+        Gizmos.DrawLine(transform.position, transform.position + Quaternion.Euler(0, monster.viewAngle / 2, 0) * forward);
+        Gizmos.DrawLine(transform.position, transform.position + Quaternion.Euler(0, -monster.viewAngle / 2, 0) * forward);
 
         // 시야 방향 표시
         Gizmos.color = Color.green;
